@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Controle de Dispositivo</title>
+  <!--link rel="stylesheet" type="text/css" href="/css/style-login.css"-->
+  <link rel="icon" type="image/png" href="{% static 'app_controle/img/ico_cadan.webp' %}">
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+    body {
+      background-color: rgb(0, 0, 30);
+      color: #fff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+    .login {
+      display: flex;
+    }
+    .frame-login {
+      background-image: url("{% static 'app_controle/img/images03.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      width: 60%;
+      height: 100vh;
+    }
+    .login-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-content h1 {
+      font-size: 40px;
+      margin-bottom: 24px;
+    }
+
+    .input-content {
+      width: 100%; /* Ajuste a largura conforme necessário */
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .input-content input {
+      width: 100%; /* Ocupa toda a largura do container */
+      height: 50px; /* Ajuste a altura conforme necessário */
+      border: 1px solid #c6c6c6;
+      border-radius: 8px;
+      padding: 0 16px; /* Adicionado para manter o espaçamento interno consistente */
+      box-sizing: border-box; /* Garante que a largura definida inclua a espessura da borda e o preenchimento */
+    }
+
+    .input-content input::placeholder {
+      font-weight: 600;
+      padding: 16px;
+    }
+    .bnt-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .btn-login {
+      font-size: 18px;
+      border: none;
+      background-color: rgb(156, 217, 255);
+      color: #fff;
+      height: 50px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-register {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    a {
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+{% block content %}
+<section class="login">
+  <div class="frame-login"><!--imagem lateral-->></div>
+
+    {% if user.is_authenticated %}
+    <P>
+        Você fez login como {{ user.username }}.
+        Clique <a href="{% url 'app_devicehub:sair' %}">aqui</a> para sair.
+    </P>
+    {% else %}
+  <div class="login-content">
+    <form action="" method="POST">
+        {% csrf_token %}
+
+      <h1>Entre com sua conta</h1>
+        {% for field in form %}
+      <div class="input-content">
+          <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" name="{{ field.name }}" placeholder="{{ field.label }}" autofocus>
+          {{ field.errors }}
+      </div>
+          {% endfor %}
+
+
+      <div class="bnt-content">
+        <button class="btn-login">Login</button>
+        <button class="btn-register">
+          Não tem uma conta? <a href="{% url 'app_devicehub:register' %}">Cadastre-se</a>
+        </button>
+      </div>
+    </form>
+  </div>
+    {% endif %}
+</section>
+{% endblock %}
+</body>
+</html>

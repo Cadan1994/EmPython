@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% extends "base/base.html" %}
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+  {% block content %}
+    <div class="responsive-table">
+        <table class="equipamentos-table">
+            <caption class="table-caption">
+              Funcionários
+            </caption>
+
+            <thead>
+              <tr class="table-row table-row-header">
+                <th class="table-header">ID</th>
+                <th class="table-header">Nome</th>
+                <th class="table-header">RG</th>
+                <th class="table-header">CPF</th>
+                <th class="table-header">Departamento</th>
+                <th class="table-header">Função</th>
+                <th class="table-header">Telefone</th>
+              </tr>
+            </thead>
+
+            <tbody>
+             {% if responsaveis %}
+              {% for rgef in responsaveis %}
+               <tr class="table-row">
+                   <td class="table-cel">
+                       <a class="table-link"
+                          href="{% url 'appcd:ver_responsaveis' rgef.responsavel_id %}">
+                           {{ rgef.responsavel_id }}
+                       </a>
+                   </td>
+                   <td class="table-cel">
+                       {{ rgef.nome }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rgef.rg }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rgef.cpf }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rgef.departamento }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rgef.funcao }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rgef.telefone_celular }}
+                   </td>
+              {% endfor %}
+            {% else %}
+                <tr class="table-row">
+                  <td colspan="7">Nenhum responsável encontrado</td>
+                </tr>
+             {% endif %}
+            </tbody>
+        </table>
+    </div>
+  {% endblock content %}
+</body>
+</html>

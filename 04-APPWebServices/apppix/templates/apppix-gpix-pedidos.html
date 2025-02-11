@@ -1,0 +1,133 @@
+{% extends 'apppix-base.html' %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'apppix/css/gpix.css' %}">
+{% endblock %}
+{% block 'div-input-search' %}{% endblock %}
+{% block 'table-custumers' %}{% endblock %}
+{% block 'div-input-toupdate' %}{% endblock %}
+{% block 'body' %}
+    {% block 'buttons' %}{% endblock %}
+    {% block 'btn-back-gpix' %}{% endblock %}
+    <div class="div-form">
+        <div class="div-list-orders">
+            <form action="{% url 'pix-manager-brasil-pays' %}" method="POST">
+                {% csrf_token %}
+                {% block 'div-button-operation' %}
+                    <div class="div-generate-qrcode">
+                        <button class="btn-generate-qrcode" onclick="getValues()" id="gererateQRCodeButton">Gerar QRCode</button>
+                        <div class="div-customer-data">
+                            {{ cliente.codigo}}-{{ cliente.nome }}
+                        </div>
+                    </div>
+                {% endblock %}
+                <table id="table-orders-list">
+                    <thead>
+                        <tr>
+                            <th class="th-check">
+                                <input class="input-check" id="custom-checkbox" type="checkbox" checked disabled>
+                                <label for="custom-checkbox"></label>
+                            </th>
+                            <th class="th-img-qrcode"></th>
+                            <th class="th-img-received"></th>
+                            <th class="th-status">status</th>
+                            <th class="th-pedido">Pedido n.º</th>
+                            <th class="th-representante">Representante</th>
+                            <th class="th-valor">Valor R$</th>
+                            <th class="th-espaco"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reg in pedidos %}
+                        <tr>
+                            <td class="td-check">
+                                {% if reg.situacaoped == 'A' %}
+                                    <input class="form-check-input" type="checkbox" name="option" value="{{ reg.nropedvenda }}">
+                                {% else %}
+                                    <input class="form-check-input" type="checkbox" name="option" value="0" checked disabled>
+                                {% endif %}
+                            </td>
+                            <td class="td-img-qrcode">
+                                {% if reg.situacaoped != 'A' %}
+                                    <img src="{% static 'apppix/img/qr_code_icon.png' %}">
+                                {% endif %}
+                            </td>
+                            <td class="td-img-received">
+                                {% if reg.situacaoped == 'L' %}
+                                    &#9989;
+                                {% endif %}
+                            </td>
+                            <td class="td-status">
+                                {% if reg.situacaoped == 'A' %}
+                                    Aguardando
+                                {% endif %}
+                                {% if reg.situacaoped == 'E' %}
+                                    Gerado
+                                {% endif %}
+                                {% if reg.situacaoped == 'L' %}
+                                    Gerado/Recebido
+                                {% endif %}
+                            </td>
+                            <td class="td-pedido">{{ reg.nropedvenda }}</td>
+                            <td class="td-representante">{{ reg.nrorepresentante }}-{{ reg.nomerazao }}</td>
+                            <td class="td-valor">{{ reg.vlrpedido }}</td>
+                            <td class="td-espaco"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    {% block 'footer' %}{% endblock %}
+    <div class="div-modal" id="div-modal">
+        <div class="div-modal-content">
+            <div class="div-loader-container">
+                <div class="div-loader"></div>
+                <p class="p-information">Aguarde</p>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'apppix/js/gpix.js' %}"></script>
+    {% for message in messages %}
+        <script>
+
+            document.addEventListener("DOMContentLoaded", function() {
+                var container = document.getElementById("message-container");
+                var button = document.getElementById("gererateQRCodeButton");
+
+                if ("{{ message }}" == 0) {
+                    container.textContent = "Nenhum pedido selecionado no momento!";
+                    container.style.display = "block";
+                    container.style.fontWeight = "bold";
+
+                    setTimeout(() => {
+                            container.style.display = "none";
+                            button.disabled = false;
+                        },
+                        3000
+                    );
+                } else if ("{{ message }}" == 1) {
+                    container.textContent = "Todos os pedidos já possui QR Code gerado!";
+                    container.style.display = "block";
+                    container.style.fontWeight = "bold";
+
+                    setTimeout(() => {
+                            container.style.display = "none";
+                            button.disabled = false;
+                        },
+                        3000
+                    );
+
+                } else {
+                    setTimeout(() => {
+                            document.getElementById("div-modal").style.display = "none";
+                        },
+                        3000
+                    );
+                }
+            });
+        </script>
+    {% endfor %}
+{% endblock %}

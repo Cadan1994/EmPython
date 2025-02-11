@@ -1,0 +1,78 @@
+{% extends 'appetd-base.html' %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'appetd/css/home.css' %}">
+{% endblock %}
+
+{% block 'body' %}
+
+    <div class="div-main">
+        <div class="div-card">
+            <a href="#">
+                <img class="img-card" src="{% static 'appetd/img/sql-file-512x512.png' %}">
+                <div class="container">
+                    <h4><b>TABELAS</b></h4>
+                    <p>Criação Tabelas</p>
+                </div>
+            </a>
+        </div>
+        <div class="div-card">
+            <a href="#">
+                <img class="img-card" src="{% static 'appetd/img/sql-file-512x512.png' %}">
+                <div class="container">
+                    <h4><b>SELECTS</b></h4>
+                    <p>Extração Dados</p>
+                </div>
+            </a>
+        </div>
+        <div class="div-card">
+            <a href="#">
+                <img class="img-card" src="{% static 'appetd/img/sql-file-512x512.png' %}">
+                <div class="container">
+                    <h4><b>VIEWS</b></h4>
+                    <p>Transformação Dados</p>
+                </div>
+            </a>
+        </div>
+        <div class="div-card">
+            <a href="#">
+                <img class="img-card" src="{% static 'appetd/img/configuration-512x512.png' %}">
+                <div class="container">
+                        <h4><b>CONFIGURAÇÕES</b></h4>
+                        <p>Parâmetros do Sistema</p>
+                </div>
+            </a>
+        </div>
+        <div class="div-card">
+            <a href="{% url 'login-logoff' %}">
+                <img class="img-card" src="{% static 'appetd/img/exit-512x512.png' %}">
+                <div class="container">
+                    <h4><b>LOGOFF</b></h4>
+                    <p>Volta ao Login</p>
+                </div>
+            </a>
+        </div>
+        <!--
+        <button class="button-menu">
+            <img class="img-button" src="{% static 'appetd/img/script-sql-32x32.png' %}">
+            Criar Tabelas
+        </button>
+        <button class="button-menu">
+            <img class="img-button" src="{% static 'appetd/img/script-sql-32x32.png' %}">
+            Criar Selects
+        </button>
+        <button class="button-menu">
+            <img class="img-button" src="{% static 'appetd/img/configuration-32x32.png' %}">
+            Configurações
+        </button>
+        <button class="button-menu">
+            <img class="img-button" src="{% static 'appetd/img/logoff-32x32.png' %}">
+            Logoff
+        </button>
+        -->
+    </div>
+
+
+    <script src="{% static 'appetd/js/home.js' %}"></script>
+{% endblock %}

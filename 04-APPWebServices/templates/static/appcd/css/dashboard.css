@@ -1,0 +1,77 @@
+/* Estilo para o centro da página */
+.centro {
+    display: flex;
+    background-color: white;
+    padding: 50px; /* Adiciona espaçamento interno para telas menores */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo para o painel */
+.painel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Layout de uma coluna para telas pequenas */
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+/* Ajusta o layout para telas maiores */
+@media screen and (min-width: 768px) {
+    .painel {
+        grid-template-columns: auto auto auto; /* Layout de grade responsivo para telas maiores */
+        justify-content: center;
+    }
+}
+
+/* Estilo para os cartões do painel */
+.card-painel {
+    background-color: rgb(156, 217, 255);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Largura mínima dos cartões */
+    max-width: 400px; /* Largura máxima dos cartões */
+    text-align: center; /* Centralize o conteúdo */
+}
+
+/* Estilo para os gráficos */
+.chart-container {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* ESTILO DA TABELA */
+.card-event {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.card-event {
+    text-align: center;
+}
+
+.table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-bottom: 20px;
+}
+
+th,
+td {
+   padding: 8px;
+   text-align: left;
+   border-bottom: 1px solid #ddd;
+   white-space: nowrap;/* Evita que o texto seja quebrado */
+}

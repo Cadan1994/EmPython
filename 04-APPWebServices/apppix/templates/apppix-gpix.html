@@ -1,0 +1,68 @@
+{% extends 'apppix-base.html' %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'apppix/css/gpix.css' %}">
+{% endblock %}
+
+{% block 'body' %}
+    {% block 'buttons' %}{% endblock %}
+    {% block 'btn-back-gpix-pedidos' %}{% endblock %}
+    {% block 'div-input-customer' %}{% endblock %}
+    <div class="div-table-customer-list">
+        <form action="{% url 'pix-manager-brasil-orders' %}" method="GET" id="formTable">
+            <table id="table-customer-list">
+                <thead>
+                    <tr>
+                        <th class="th-status"></th>
+                        <th class="th-cliente" colspan="2">Código/Nome da Ração Social</th>
+                        <th class="th-pedquantidade">Quantidade Análise</th>
+                        <th class="th-pedquantidade">Quantidade Envidado</th>
+                        <th class="th-pedquantidade">Quantidade Liberado</th>
+                        <th class="th-pedvalor">Valor R$ Pedido</th>
+                        <th class="th-btngerarpix"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reg in clientes %}
+                    <tr>
+                        <td class="td-status">&#128898;</td>
+                        <td class="td-clicodigo">
+                            <input
+                                    class="input-codecustomer"
+                                    type="text"
+                                    name="codecustomer"
+                                    value="{{ reg.seqpessoa }}"
+                                    disabled
+                            >
+                        </td>
+                        <td class="td-clinomerazao">
+                            <input
+                                    class="input-namecustomer"
+                                    type="text"
+                                    name="namecustomer"
+                                    value="{{ reg.nomerazao }}"
+                                    disabled
+                            >
+                        </td>
+                        <td class="td-pedquantidade">{{ reg.qtdanalise }}</td>
+                        <td class="td-pedquantidade">{{ reg.qtdenviado }}</td>
+                        <td class="td-pedquantidade">{{ reg.qtdliberado }}</td>
+                        <td class="td-pedvalor">{{reg.pedvalor}}</td>
+                        <td class="td-btngerarpix">
+                            {% if reg.qtdanalise == '0' %}
+                                <button class="button-pay" type="button" style="background-color: #222c66;">Consultar</button>
+                            {% else %}
+                                <button class="button-pay" type="button" style="background-color: #f81c1c;">Pagar</button>
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+    {% block 'footer' %}{% endblock %}
+    <script src="{% static 'apppix/js/gpix.js' %}"></script>
+{% endblock %}

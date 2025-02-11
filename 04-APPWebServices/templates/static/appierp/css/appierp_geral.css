@@ -1,0 +1,245 @@
+* {
+  box-sizing: border-box;
+}
+body {
+    background: none;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    img.img-left {
+        position: fixed;
+        left: 10px;
+        top: 4px;
+        width: 48px;
+    }
+    img.img-right {
+        position: fixed;
+        right: 10px;
+        top: 4px;
+        width: 48px;
+    }
+    h2 {
+        font-size: 2.6rem;
+        color: #222c66;
+        text-shadow: 2px 2px 5px #363636;
+        margin: 0.5%;
+    }
+}
+hr {
+    margin-top: 0;
+    border: 0;
+    height: 5px;
+    background-image: linear-gradient(to right, transparent, #222c66, transparent);
+}
+.div-titulo {
+    background-color: #222c66;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+    border-radius: 15px 15px 0px 0px;
+    #home {
+        position: fixed;
+        left: 30px;
+        top: 100px;
+        width: auto;
+        height: 50px;
+    }
+    .div-input-search {
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        width: 264px;
+        height: 48px;
+        border-radius: 500px;
+        border: 1px solid #222C66;
+        position: fixed;
+        left: 12%;
+        top: 100px;
+        /* IMAGEM */
+        img {
+            width: 24px;
+            height: 24px;
+            margin-left: 10px;
+        }
+        /* EDIT */
+        input {
+            background: transparent;
+            border: none;
+            padding: 0px 100px 0 12px;
+            color: #000000;
+            text-overflow: ellipsis; /* Especifica como o conteúdo estourado que não é exibido deve ser sinalizado para o usuário. */
+            overflow: hidden;
+            white-space: nowrap; /* Especifica como o espaço em branco dentro de um elemento é manipulado. */
+            outline: none;
+        }
+    }
+    h1 {
+        margin: 10px;
+        color: #ffffff;
+        font-size: 2.4rem;
+    }
+}
+.div-tabela {
+    background-color: none;
+    display: block;
+    justify-content: center;
+    align-items: top;
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+    border: 1px solid #222c66;
+    border-radius: 0px 0px 15px 15px;
+    .div-tabela-thead {
+        background-color: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 30px;
+        font-size: 1.2rem;
+        color: #222c66;
+        /* CLIENTES */
+        .div-tabela-col-codigo-cliente {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 7%;
+            margin: 0;
+        }
+        .div-tabela-col-inscricao {
+            display: flex;
+            align-items: center;
+            width: 15%;
+        }
+        .div-tabela-col-nome {
+            display: flex;
+            align-items: center;
+            width: 30%;
+        }
+        .div-tabela-col-focofaixa {
+            display: flex;
+            align-items: center;
+            width: 48%;
+        }
+        /* PRODUTOS */
+        .div-tabela-col-codigo-produto {
+            display: flex;
+            justify-content: center;
+            width: 10%;
+        }
+        .div-tabela-col-base {
+            display: flex;
+            justify-content: center;
+            width: 6%;
+        }
+        .div-tabela-col-descricao {
+            display: flex;
+            justify-content: left;
+            width: 84%;
+        }
+    }
+    .container-tabela {
+        background-color: none;
+        display: block;
+        justify-content: center;
+        align-items: top;
+        width: 100%;
+        overflow-y: auto;
+        table {
+            background-color: #FFFFFF90;
+            width: 100%;
+            display: block;
+            border: none;
+            font-size: 1.2rem;
+            color: #000000;
+            .col-cliente-codigo {
+                width: 7%;
+                text-align: center;
+            }
+            .col-cliente-cpfcnpj {
+                width: 15%;
+                text-align: left;
+            }
+            .col-cliente-nomerazao {
+                width: 30%;
+                text-align: left;
+            }
+            .col-cliente-jsondata {
+                width: 48%;
+                text-align: left;
+            }
+            .col-cliente-update {
+                text-align: center;
+                button {
+                    background-color: transparent;
+                    border: none;
+                    img {
+                        width: 32px;
+                        height: auto;
+                    }
+                }
+            }
+            .col-produto-codigo {
+                width: 10%;
+                text-align: center;
+            }
+            .col-produto-jsondata-base {
+                width: 7%;
+                text-align: center;
+            }
+            .col-produto-descricao {
+                width: 86%;
+                text-align: left;
+            }
+            .col-produto-update {
+                text-align: center;
+                button {
+                    background-color: transparent;
+                    border: none;
+                    img {
+                        width: 32px;
+                        height: auto;
+                    }
+                }
+            }
+            td {
+                vertical-align: middle;
+                height: 30px;
+            }
+            tr:hover {
+                background-color: #222C6630;
+                cursor: pointer;
+            }
+        }
+    }
+}
+.footer-div {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    color: #000000;
+    height: auto;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+
+    .information {
+        position:= fixed;
+        margin-left: 2%;
+        font-size: 1.0rem;
+    }
+    .department {
+        position: fixed;
+        right: 2%;
+        font-size: 1.0rem;
+    }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% extends "base/base.html" %}
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+  {% block content %}
+    <div class="responsive-table">
+        <table class="equipamentos-table">
+            <caption class="table-caption">
+              Devolução
+            </caption>
+
+            <thead>
+              <tr class="table-row table-row-header">
+                <th class="table-header">ID</th>
+                <th class="table-header">Serial do Equipamento</th>
+                <th class="table-header">Nome do Responsável</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% if devolucoes %}
+              {% for rgedv in devolucoes %}
+               <tr class="table-row">
+                   <td class="table-cel">
+                       <a class="table-link"
+                          href="{% url 'appcd:ver_devolucao' rgedv.devolucao_id %}">
+                           {{ rgedv.devolucao_id }}
+                       </a>
+                   </td>
+                   <td class="table-cel">
+                       {{ rgedv.ultimo_equipamento }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rgedv.ultimo_responsavel }}
+                   </td>
+               </tr>
+              {% endfor %}
+            {% else %}
+                <tr class="table-row">
+                  <td colspan="7">Nenhuma devoluçã encontrada</td>
+                </tr>
+             {% endif %}
+            </tbody>
+        </table>
+    </div>
+  {% endblock content %}
+</body>
+</html>

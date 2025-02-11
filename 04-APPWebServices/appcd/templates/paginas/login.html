@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Controle de Dispositivo</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'appcd/css/login.css' %}">
+  <link rel="icon" type="image/png" href="{% static 'appcd/img/ico_cadan.webp' %}">
+  <style>
+    .frame-login {
+      background-image: url("{% static 'appcd/img/images03.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      width: 60%;
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+{% block content %}
+<section class="login">
+  <div class="frame-login"><!--imagem lateral-->></div>
+
+    {% if user.is_authenticated %}
+    <P>
+        Você fez login como {{ user.username }}.
+        Clique <a href="{% url 'appcd:sair' %}">aqui</a> para sair.
+    </P>
+    {% else %}
+  <div class="login-content">
+    <form action="" method="POST">
+        {% csrf_token %}
+
+      <h1>Entre com sua conta</h1>
+        {% for field in form %}
+      <div class="input-content">
+          <input type="{{ field.field.widget.input_type }}" id="{{ field.id_for_label }}" name="{{ field.name }}" placeholder="{{ field.label }}" autofocus>
+          {{ field.errors }}
+      </div>
+          {% endfor %}
+
+
+      <div class="bnt-content">
+        <button class="btn-login">Login</button>
+        <button class="btn-register">
+          Não tem uma conta? <a href="{% url 'appcd:register' %}">Cadastre-se</a>
+        </button>
+      </div>
+    </form>
+  </div>
+    {% endif %}
+</section>
+{% endblock %}
+</body>
+</html>

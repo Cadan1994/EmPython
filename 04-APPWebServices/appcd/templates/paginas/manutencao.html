@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends "base/base.html" %}
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+  {% block content %}
+    <div class="responsive-table">
+        <table class="equipamentos-table">
+            <caption class="table-caption">
+              Manutenção
+            </caption>
+
+            <thead>
+              <tr class="table-row table-row-header">
+                <th class="table-header">ID</th>
+                <th class="table-header">Serial do Equipamento</th>
+                <th class="table-header">Nome do Responsável</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% if manutencoes %}
+              {% for rgem in manutencoes %}
+               <tr class="table-row">
+                   <td class="table-cel">
+                       <a class="table-link"
+                          href="{% url 'appcd:ver_manutencao' rgem.manutencao_id %}">
+                           {{ rgem.manutencao_id }}
+                       </a>
+                   </td>
+                   <td class="table-cel">
+                       {{ rgem.equipamento_manutencao }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rgem.responsavel_manutencao }}
+                   </td>
+              {% endfor %}
+            {% else %}
+                <tr class="table-row">
+                  <td colspan="7">Nenhuma manutenção encontrada</td>
+                </tr>
+             {% endif %}
+            </tbody>
+        </table>
+    </div>
+  {% endblock content %}
+</body>
+</html>

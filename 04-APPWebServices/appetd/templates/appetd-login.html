@@ -1,0 +1,100 @@
+{% extends 'appetd-base.html' %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'appetd/css/login.css' %}">
+{% endblock%}
+
+{% block 'body' %}
+    <div class="flex-container">
+        <div class="div-card">
+            <img class="img-logo-cadan" src="{% static 'img/login-cadan-360x232.png' %}">
+            <div class="div-container">
+                <form class="form-login" action="{% url 'login-authentication' %}" method="GET">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Empresa</label>
+                        <select class="form-select" name="usercampany" disabled>
+                              <option value="1">CADAN MATRIZ</option>
+                              <option value="2">CADAN FILIAL</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Usuário</label>
+                        <input class="form-control" type="text" id="inputUserName" name="username">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Senha</label>
+                        <input class="form-control" type="password" id="inputPassword" name="userpassword">
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn-login" type="submit">Entrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'appetd/js/login.js' %}"></script>
+{% endblock %}
+<!--
+<!doctype html>
+{% load static %}
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'fontawesomefree/css/all.min.css' %}">
+        <link rel="stylesheet" href="{% static 'appetd/css/login.css' %}">
+    </head>
+    <body>
+        <div class="div-container-e">
+            <div class="div-login">
+                <figure>
+                    <img class="img-logo-sistema" src="{% static 'appetd/img/etl_512x512.png' %}">
+                </figure>
+                <p>ACESSO AO SISTEMA</p>
+                <form action="{% url 'autenticacao' %}" method="GET">
+                    {% csrf_token %}
+                    <div class="form-floating usuario">
+                        <input class="form-control" type="text" id="username" placeholder="Usuário" name="usuario">
+                        <label for="username">Usuário</label>
+                    </div>
+                    <div class="form-floating">
+                        <input class="form-control" type="password" id="password" placeholder="Senha" name="senha">
+                        <label for="password">Senha</label>
+                    </div>
+                    <button type="submit" id="botao-enviar">Enviar</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="div-container-d">
+            <figure>
+                <img class="img-logo-empresa" src="{% static 'img/logo_cadan_2751x2899.png' %}">
+            </figure>
+        </div>
+
+        {% if send == True %}
+        <div class="div-modal" id="form-modal">
+            <div class="div-modal-content">
+                <div class="div-title">
+                    <p class="title">Atenção</p>
+                    <span onclick="fecharModal()">&times;</span>
+                </div>
+                <div class="div-message">
+                    <p class="fa-solid fa-triangle-exclamation fa-fade"></p>
+                    <span class="span-message" id="message">{{message}}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <script src="{% static 'appetd/js/login.js' %}"></script>
+
+    </body>
+</html>
+-->

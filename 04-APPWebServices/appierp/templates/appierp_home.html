@@ -1,0 +1,28 @@
+{% extends 'appierp_base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'appierp/css/appierp_home.css' %}">
+{% endblock %}
+
+{% block body %}
+    {% block imagem %}{% endblock %}
+    {% block div-tabela-clientes %}{% endblock %}
+    {% block div-tabela-produtos %}{% endblock %}
+
+    {% block tela_home %}
+        <div class="div-menu">
+            <nav>
+                <ul>
+                    <li><a class="active">Menu</a></li>
+                    <li><a href="{% url 'cliente-list' %}">Cliente Foco/Faixa</a></li>
+                    <li><a href="{% url 'produto-list' %}">Produto Base</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="div-imagem">
+            <img class="img-cadan" src="{% static 'img/logo_cadan_2751x2899.png' %}" alt="Imagem da CADAM">
+        </div>
+
+    {% endblock %}
+{% endblock %}

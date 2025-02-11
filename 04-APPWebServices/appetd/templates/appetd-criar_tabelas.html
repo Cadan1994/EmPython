@@ -1,0 +1,337 @@
+{% extends 'appetd-base.html' %}
+{% load static %}
+
+{% block head %}
+    <link href="{% static 'appetd/css/tabelas.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% block menu %}{% endblock %}
+    {% block caption %}CADASTRO DE TABELAS{% endblock %}
+
+    <section>
+        <div class="div-table">
+            <table id="listTable">
+                <thead>
+                    <tr>
+                        <th class="col-status"></th>
+                        <th class="col-type">Tipo</th>
+                        <th class="col-id">Código</th>
+                        <th class="col-name">Nome</th>
+                        <th class="col-description">Descrição</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in register %}
+                        <tr id="{{r.id}}">
+                            <td class="col-status" id="{{r.status}}">
+                                {% if r.status == 'A' %}
+                                    <img src="{% static 'img/ball_green.png' %}">
+                                {% else %}
+                                   <img src="{% static 'img/ball_red.png' %}">
+                                {% endif %}
+                            </td>
+                            <td class="col-type" id="{{r.type}}">
+                                {% if r.type == 'D' %}
+                                    &#127347;
+                                {% else %}
+                                    &#127349;
+                                {% endif %}
+                            </td>
+                            <td class="col-id">
+                                {% if r.status == 'I' %}
+                                    <del>{{r.id|stringformat:"03d"}}</del>
+                                {% else %}
+                                    {{r.id|stringformat:"03d"}}
+                                {% endif %}
+                            </td>
+                            <td class="col-name" id="{{r.name}}">
+                                {% if r.status == 'I' %}
+                                    <del>{{r.name}}</del>
+                                {% else %}
+                                    {{r.name}}
+                                {% endif %}
+                            </td>
+                            <td class="col-description" id="{{r.description}}">
+                                {% if r.status == 'I' %}
+                                    <del>{{r.description}}</del>
+                                {% else %}
+                                    {{r.description}}
+                                {% endif %}
+                            </td>
+                            <td class="col-createscript" id="{{r.createscript}}">
+
+                            </td>
+                            <td class="col-update">
+                                <button
+                                    class="button-operation"
+                                    id="button-update"
+                                    onclick="abrirModalUpd()">
+                                    <img src="{% static 'img/edit.png' %}">
+                                </button>
+                            </td>
+                            <td class="col-delete">
+                                <button
+                                    class="button-operation"
+                                    id="button-delete"
+                                    onclick="abrirModalDel()">
+                                    <img src="{% static 'img/delete.png' %}">
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    {% block showmodal %}
+        <!-- FORMULÁRIO MODAL PARA INSERIR CADASTRO -->
+        <div class="div-modal" id="form-modal-register-ins">
+            <div class="div-modal-content">
+                <div class="div-title">
+                    <p class="title" id="p-title-ins"></p>
+                </div>
+                <div class="div-form">
+                    <form action="{% url 'tabela-insert' %}" method="POST">
+                        {% csrf_token %}
+                        <hr class="divisor">
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <input
+                                        class="form-control"
+                                        type="text"
+                                        name="name"
+                                        maxlength="60"
+                                        required="required"
+                                    >
+                                    <label>Nome</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea
+                                        class="form-control"
+                                        name="description"
+                                        maxlength="255"
+                                        required="required"
+                                        style="height: 150px;"
+                                    >
+                                    </textarea>
+                                    <label>Descrição</label>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" required="required" name="type">
+                                                <option selected></option>
+                                                <option value="D">Dimensão</option>
+                                                <option value="F">Fato</option>
+                                            </select>
+                                            <label>Tipo</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" required="required" name="status" disabled>
+                                                <option value="A" selected>Ativo</option>
+                                                <option value="I">Inativo</option>
+                                            </select>
+                                            <label>Status</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <textarea
+                                        class="form-control"
+                                        name="createscript"
+                                        required="required"
+                                        id="createscript_ins"
+                                        style="height: 300px;"
+                                    >
+                                    </textarea>
+                                    <label>Script</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="divisor">
+                        <div class="div-botoes">
+                            <button class="button-submit" type="submit" onclick="messageInsert()">Salvar</button>
+                            <button class="button-reset" type="reset" onclick="fecharModalIns()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- FORMULÁRIO MODAL PARA ALTERAR CADASTRO -->
+        <div class="div-modal" id="form-modal-register-upd">
+            <div class="div-modal-content">
+                <div class="div-title">
+                    <p class="title" id="p-title-upd"></p>
+                </div>
+                <div class="div-form">
+                    <form action="{% url 'tabela-update' %}" method="POST">
+                        {% csrf_token %}
+                        <hr class="divisor">
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="row g-2">
+                                    <div class="col-md-2">
+                                        <div class="form-floating mb-3">
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                name="id"
+                                                id="id_upd"
+                                                readonly
+                                            >
+                                            <label>Id</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                name="name"
+                                                maxlength="60"
+                                                required="required"
+                                                id="name_upd"
+                                            >
+                                            <label>Nome</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea
+                                        class="form-control"
+                                        name="description"
+                                        maxlength="255"
+                                        required="required"
+                                        id="description_upd"
+                                        style="height: 150px;"
+                                    >
+                                    </textarea>
+                                    <label>Descrição</label>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" required="required" name="type" id="type">
+                                                <option value="D">Dimensão</option>
+                                                <option value="F">Fato</option>
+                                            </select>
+                                            <label>Tipo</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" required="required" name="status" id="status">
+                                                <option value="A">Ativo</option>
+                                                <option value="I">Inativo</option>
+                                            </select>
+                                            <label>Status</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating mb-3">
+                                    <textarea
+                                        class="form-control"
+                                        name="createscript"
+                                        required="required"
+                                        id="createscript_upd"
+                                        style="height: 300px;"
+                                    >
+                                    </textarea>
+                                    <label>Script</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="divisor">
+                        <div class="div-botoes">
+                            <button class="button-submit" type="submit" onclick="messageUpdate()">Salvar</button>
+                            <button class="button-reset" type="reset" onclick="fecharModalUpd()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- FORMULÁRIO MODAL PARA EXCLUIR CADASTRO -->
+        <div class="div-modal" id="form-modal-register-del">
+            <div class="div-modal-content">
+                <div class="div-title">
+                    <p class="title" id="p-title-del"></p>
+                </div>
+                <div class="div-form">
+                    <form action="{% url 'tabela-delete' %}" method="POST">
+                        {% csrf_token %}
+                        <hr class="divisor">
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="row g-2">
+                                    <div class="col-md-2">
+                                        <div class="form-floating mb-3">
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                name="id"
+                                                id="id_del"
+                                                readonly
+                                            >
+                                            <label>Id</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating mb-3">
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                name="name"
+                                                maxlength="60"
+                                                required="required"
+                                                id="name_del"
+                                                disabled
+                                            >
+                                            <label>Nome</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <textarea
+                                        class="form-control"
+                                        name="description"
+                                        maxlength="255"
+                                        required="required"
+                                        id="description_del"
+                                        disabled
+                                        style="height: 100px;"
+                                    >
+                                    </textarea>
+                                    <label>Descrição</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="divisor">
+                        <div class="div-botoes">
+                            <button class="button-submit" type="submit" onclick="messageDelete()">Excluir</button>
+                            <button class="button-reset" type="reset" onclick="fecharModalDel()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block javascript %}
+        <script src="{% static 'appetd/js/tabelas.js' %}"></script>
+    {% endblock %}
+
+{% endblock %}

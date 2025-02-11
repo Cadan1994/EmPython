@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends "base/base_unico.html" %}
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeviceHub</title>
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+   {% block content %}
+     <div class="single-equipamentos">
+       <h1 class="single-equipamentos-name">
+           {{ vermanutencao.manutencao_id }}
+       </h1>
+
+         <p><b>ID:</b> {{ vermanutencao.manutencao_id }}</p>
+         <p><b>ID do Equipamneto:</b> {{ vermanutencao.equipamento_manutencao }}</p>
+         <p><b>Responsavel :</b> {{ vermanutencao.responsavel_manutencao }}</p>
+         <p><b>Descrição:</b> {{ vermanutencao.descricao}}</p>
+         <p><b>Data de manutenção:</b> {{ vermanutencao.data_manutencao}}</p>
+         <br>
+         <br>
+
+       <div class="equipamento-links">
+         <a class="btn bnt-primary" href="{% url 'app_devicehub:atualizar_manutencao' vermanutencao.manutencao_id %}">Atualizar</a>
+         <br>
+         <br>
+         <form action="{% url 'app_devicehub:excluir_manutencao' vermanutencao.manutencao_id %}" method="POST">
+           {% csrf_token %}
+
+           <button class="btn bnt-link bnt-delete" type="submit">Excluir</button>
+         </form>
+
+       </div>
+
+     </div>
+   {% endblock content %}
+</body>
+</html>

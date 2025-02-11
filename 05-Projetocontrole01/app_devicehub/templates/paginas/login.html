@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'app_controle/css/login.css' %}">
+    <link rel="icon" href="{% static 'app_controle/img/dip.png' %}" type="image/png">
+    <title>DeviceHub</title>
+</head>
+<body>
+    {% block content %}
+    <div class="teste">
+        <div class="form-wrapper">
+
+
+            {% if user.is_authenticated %}
+            <P>
+                Você fez login como {{ user.username }}.
+                Clique <a href="{% url 'app_devicehub:sair' %}">aqui</a> para sair.
+            </P>
+            {% else %}
+            <section class="area-login">
+                <div class="login">
+                    <div>
+                        <img src="{% static 'app_controle/img/dip.png' %}" alt="">
+                    </div>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                        <!--input type="text" name="Usuario" placeholder="Usuario" autofocus>
+                        <input type="password" name="senha" placeholder="Sua senha"-->
+
+                        <label for="{{ field.id_for_label }}" class="label-styled" autofocus>{{ field.label }}</label>
+                        {{ field }}
+                        {{ field.errors }}
+
+                        {% endfor %}
+
+                        <input type="submit" value="Entrar">
+                    </form>
+                    <p>Ainda não tem uma conta?<a href="{% url 'app_devicehub:register' %}">Criar uma conta</a></p>
+                </div>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

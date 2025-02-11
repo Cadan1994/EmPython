@@ -1,0 +1,389 @@
+
+* {
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+body {
+    overflow: hidden;
+}
+:root {
+    --checkbox-color: #ffffff;
+    --checkbox-border: #555;
+}
+/* FORMULÁRIO APPPIX-GPIX */
+.div-table-customer-list {
+    width: 98%;
+    height: 68vh;
+    margin: 1%;
+    overflow: hidden;
+    display: block;
+    margin: 1%;
+    overflow-y: scroll;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 2vh;
+    table {
+        width: 100%;
+        margin: 0;
+        border-collapse: collapse;
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        th, td {
+            padding: 5px;
+            font-weight: normal;
+            font-size: 1.2rem;
+        }
+        img {
+            width: 0;
+        }
+        .th-status {
+            width: 5vh;
+            text-align: center;
+            background-color: #222c66;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .th-cliente {
+            width: 100vh;
+            text-align: left;
+            background-color: #222c66;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .th-pedquantidade{
+            width: 15vh;
+            text-align: center;
+            background-color: #222c66;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .th-pedvalor {
+            width: 20vh;
+            text-align: right;
+            background-color: #222c66;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .th-btngerarpix,
+        .th-btngerarqrc {
+            width: 15vh;
+            text-align: center;
+            background-color: #222c66;
+            color: #ffffff;
+        }
+        .td-status {
+            width: 5vh;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #222c66;
+        }
+        .td-clicodigo {
+            width: 10vh;
+            text-align: left;
+            font-size: 1.4rem;
+            .input-codecustomer {
+                width: 10vh;
+                border: 0;
+            }
+        }
+        .td-clinomerazao {
+            width: 75vh;
+            text-align: left;
+            font-size: 1.4rem;
+            .input-namecustomer {
+                width: 75vh;
+                border: 0;
+            }
+        }
+        /**/
+        .td-pedquantidade {
+            width: 15vh;
+            text-align: center;
+            font-size: 1.4rem;
+        }
+        .td-pedvalor {
+            width: 20vh;
+            text-align: right;
+            font-size: 1.4rem;
+        }
+        .td-btngerarpix,
+        .td-btngerarqrc {
+            width: 15vh;
+            text-align: center;
+        }
+        .button-pay {
+            color: #ffffff;
+            height: 5vh;
+            width: 15vh;
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        .button-pay:hover {
+            opacity: 0.5;
+        }
+    }
+}
+/* FORMULÁRIO APPPIX-GPIX-PEDIDOS */
+.div-form {
+    width: 100%;
+    height: 100%;
+    .div-generate-qrcode {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        width: 100%;
+        height: 6vh;
+        margin-left: 1%;
+        .btn-generate-qrcode {
+            background-color: #d31818;
+            color: #ffffff;
+            width: 12%;
+            float: left;
+            border-radius: 5px;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+        .btn-generate-qrcode:hover {
+            background-color: #db4646;
+            color: #ffffff;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+        .div-customer-data {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #222c66;
+            margin: 1%;
+        }
+        .btn-select-directory {
+            background-color: #d31818;
+            color: #ffffff;
+            width: 15%;
+            float: left;
+            border-radius: 5px;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            font-weight: bold;
+            margin: 5px;
+        }
+        .btn-select-directory:hover {
+            background-color: #db4646;
+            color: #ffffff;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+        .div-select-directory {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #222c66;
+            margin: 1%;
+        }
+    }
+    .div-list-orders {
+        width: 98%;
+        height: 68vh;
+        margin: 3%;
+        overflow: hidden;
+        display: block;
+        margin: 1%;
+        overflow-y: scroll;
+        border: 1px solid rgba(0,0,0,0.1);
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        border-radius: 2vh;
+        table {
+            width: 100%;
+            margin: 0;
+            border-collapse: collapse;
+            thead th {
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+            th, td {
+                padding: 5px;
+                font-weight: normal;
+                font-size: 1.2rem;
+            }
+            img {
+                width: 30px;
+            }
+            .th-check {
+                width: 10;
+                text-align: center;
+                background-color: #222c66;
+                color: #ffffff;
+                font-weight: bold;
+                input[type="checkbox"] {
+                    display: none;
+                }
+                label {
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-left: 30%;
+                    width: 18px;
+                    height: 18px;
+                    border: 2px solid #222c66;
+                    border-radius: 4px;
+                    background-color: #fff;
+                    transition: background-color 0.2s, border-color 0.2s
+                }
+                label::after {
+                    content: '';
+                    position: absolute;
+                    width: 10px;
+                    height: 8px;
+                    border: solid #222c66;
+                    border-width: 0 3px 3px 0;
+                    transform: rotate(45deg);
+                    opacity: 0;
+                    transition: opacity 0.2s;
+                }
+                input[type="checkbox"]:checked + label {
+                    background-color: #ffffff;
+                    border-color: #ffffff;
+                }
+                input[type="checkbox"]:checked + label::after {
+                    opacity: 1;
+                }
+            }
+            .th-img-qrcode {
+                width: 0;
+                text-align: center;
+                background-color: #222c66;
+            }
+            .th-img-received {
+                width: 0;
+                text-align: center;
+                background-color: #222c66;
+            }
+            .th-status {
+                width: 10vh;
+                text-align: left;
+                background-color: #222c66;
+                color: #ffffff;
+                font-weight: bold;
+            }
+            .th-pedido {
+                width: 12vh;
+                text-align: center;
+                background-color: #222c66;
+                color: #ffffff;
+                font-weight: bold;
+            }
+            .th-representante{
+                width: 60vh;
+                text-align: left;
+                background-color: #222c66;
+                color: #ffffff;
+                font-weight: bold;
+            }
+            .th-valor {
+                width: 20vh;
+                text-align: right;
+                background-color: #222c66;
+                color: #ffffff;
+                font-weight: bold;
+            }
+            .th-espaco {
+                width: 5vh;
+                background-color: #222c66;
+            }
+            .td-check {
+                width: 0;
+                text-align: center;
+                input[type="checkbox"]:checked {
+                    background-color: #222c66;
+                    border-color: #222c66;
+                }
+            }
+            .td-img-qrcode {
+                width: 0;
+                text-align: center;
+            }
+            .td-img-received {
+                width: 0;
+                text-align: center;
+            }
+            .td-status {
+                width: 10vh;
+                text-align: left;
+                font-weight: bold;
+            }
+            .td-pedido {
+                width: 12vh;
+                text-align: center;
+            }
+            .td-representante {
+                width: 60vh;
+                text-align: left;
+            }
+            .td-valor {
+                width: 20vh;
+                text-align: right;
+                font-size: 1.3rem;
+            }
+            .td-espaco {
+                width: 5vh;
+            }
+        }
+    }
+}
+.div-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    overflow: auto;
+    width: 100%;
+    .div-modal-content {
+        background-color: #222c6690;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        height: 100vh;
+        .div-loader-container {
+            text-align: center;
+            .div-loader {
+                width: 25vh;
+                height: 25vh;
+                border: 15px solid #ffffff;
+                border-top: 15px solid #222c66;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin: 0 auto;
+            }
+            .p-information {
+                padding: 10px;
+                font-size: 1.8rem;
+                font-weight: bold;
+                color: #222c66;
+            }
+        }
+    }
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

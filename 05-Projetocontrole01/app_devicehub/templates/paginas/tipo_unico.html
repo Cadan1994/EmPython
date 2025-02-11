@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends "base/base_unico.html" %}
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeviceHub</title>
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+   {% block content %}
+     <div class="single-equipamentos">
+       <h1 class="single-equipamentos-name">
+           {{ vertipo.tipo_id }}
+       </h1>
+
+         <p><b>ID:</b> {{ vertipo.tipo_id }}</p>
+         <p><b>Tipo:</b> {{ vertipo.nome_tipo }}</p>
+         <p><b>Descrição:</b> {{ vertipo.descricao}}</p>
+         <p><b>Data:</b> {{ vertipo.data}}</p>
+         <br>
+         <br>
+
+       <div class="equipamento-links">
+         <a class="btn bnt-primary" href="{% url 'app_devicehub:atualizar_tipo' vertipo.tipo_id %}">Atualizar</a>
+
+         <br>
+         <br>
+         <form action="{% url 'app_devicehub:excluir_tipo' vertipo.tipo_id %}" method="POST">
+           {% csrf_token %}
+
+           <button class="btn bnt-link bnt-delete" type="submit">Excluir</button>
+         </form>
+
+       </div>
+
+     </div>
+   {% endblock content %}
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de dispositivos</title>
+    <link rel="stylesheet" href="{% static 'app_controle/css/home.css' %}">
+    <link rel="icon" href="{% static 'app_controle/img/ico_cadan.webp' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'app_controle/css/menu.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header class="header"><!-----Parte principal do HTML(BASE)------->
+        <!-----------------------------MENU superior--------------------------->
+        <h1 class="header-heading">
+            <a href="#" class="header-link">
+                Controle de dispositivos
+            </a>
+        </h1>
+        <!---------------------------Menu lateral------------------------------>
+        <nav class="menu-lateral">
+            <div class="bnt-expandir">
+                <i class="bi bi-list" id="btn-exp"></i>
+            </div>
+
+            <ul>
+                {% if user.is_authenticated %}
+                <li class="item-menu ativo">
+                    <a href="{% url 'app_devicehub:home' %}">
+                        <span class="icon"><i class="bi bi-house"></i></span>
+                        <span class="txt-link">Home</span>
+                    </a>
+                </li>
+                <li class="item-menu">
+                    <a href="{% url 'app_devicehub:dispositivos' %}">
+                        <span class="icon"><i class="bi bi-phone"></i></span>
+                        <span class="txt-link">Dispositivos</span>
+                    </a>
+                </li>
+                <li class="item-menu">
+                    <a href="{% url 'app_devicehub:responsaveis' %}">
+                        <span class="icon"><i class="bi bi-person-fill-add"></i></span>
+                        <span class="txt-link">Funcionários</span>
+                    </a>
+                </li>
+                <li class="item-menu">
+                    <a href="{% url 'app_devicehub:devolucao' %}">
+                        <span class="icon"><i class="bi bi-box-seam"></i></span>
+                        <span class="txt-link">Devolução</span>
+                    </a>
+                </li>
+                <li class="item-menu">
+                    <a href="{% url 'app_devicehub:manutencao' %}">
+                        <span class="icon"><i class="bi bi-wrench-adjustable-circle"></i></span>
+                        <span class="txt-link">Manutenção</span>
+                    </a>
+                </li>
+                <li class="item-menu">
+                    <a href="{% url 'app_devicehub:tipo' %}">
+                        <span class="icon"><i class="bi bi-plus-circle"></i></span>
+                        <span class="txt-link">Tipo</span>
+                    </a>
+                </li>
+                <li class="item-menu">
+                     <a href="#">
+                         <span class="icon"><i class="bi bi-person"></i></span>
+                         <span class="txt-link">Perfil</span>
+                     </a>
+                </li>
+                <li class="item-menu">
+                    <a href="{% url 'app_devicehub:sair' %}">
+                        <span class="icon"><i class="bi bi-box-arrow-left"></i></span>
+                        <span class="txt-link">Sair</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="item-menu">
+                    <a href="{% url 'app_devicehub:login' %}">
+                        <span class="icon"><i class="bi bi-box-arrow-in-right"></i></span>
+                        <span class="txt-link">Login</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+
+        </nav>
+
+        <script src="{% static 'app_controle/js/menu.js' %}"></script>
+    </header>
+    <!--------------------------Botões/eventos da aplicação-------------------------------------------->
+    <section class="events">
+        <div class="block-events">
+            <div class="card-event">
+                <img src="{% static 'app_controle/img/dispositivos.png' %}" alt="">
+                <h2>Cadastrar Equipamento</h2>
+                <p>Cadastre aqui uma <code>Equipamento</code></p>
+                <a class="button" href="{% url 'app_devicehub:novo_cadastro_equipamento' %}">Novo Equipamento</a>
+            </div>
+            <div class="card-event">
+                <img src="{% static 'app_controle/img/funcionarios.jpg' %}" alt="">
+                <h2>Cadastrar Funcionário</h2>
+                <p>Cadastre aqui uma <code>Funcionário</code></p>
+                <a class="button" href="{% url 'app_devicehub:novo_cadastro_responsavel' %}">Funcionário</a>
+            </div>
+            <div class="card-event">
+                <img src="{% static 'app_controle/img/manutenção.jpg' %}" alt="">
+                <h2>Cadastrar Manutenção</h2>
+                <p>Cadastre aqui uma nova <code>Manutenção</code></p>
+                <a class="button" href="{% url 'app_devicehub:novo_cadastro_manutencao' %}">Manutenção</a>
+            </div>
+            <div class="card-event">
+                <img src="{% static 'app_controle/img/devolução.png' %}" alt="">
+                <h2>Cadastrar Devolução</h2>
+                <p>Cadastre aqui uma nova <code>Devolução</code></p>
+                <a class="button" href="{% url 'app_devicehub:novo_cadastro_devolucao' %}">Devolução</a>
+            </div>
+            <div class="card-event">
+                <img src="{% static 'app_controle/img/dispositivos.png' %}" alt="">
+                <h2>Cadastrar Tipo</h2>
+                <p>Cadastre aqui uma novo <code>Tipo</code> de dispositivo</p>
+                <a class="button" href="{% url 'app_devicehub:novo_cadastro_tipo' %}">Tipo</a>
+            </div>
+        </div>
+    </section>
+    <!------------------------Parte do banner/outra coisa que vou colocar-------------------------------------->
+    <section class="section-text">
+        <div class="section-text-img">
+            <img src="{% static 'app_controle/img/images02.jpg' %}" alt="">
+        </div>
+        <div class="section-text-content">
+            <h1>Gerenciamento</h1>
+            <p>Este painel foi projetado para simplificar e
+                otimizar o gerenciamento dos dispositivos eletrônicos
+                em sua rede. Com uma interface intuitiva e poderosas
+                ferramentas de controle, você terá tudo o que precisa
+                para monitorar, configurar e manter seus dispositivos
+                de forma eficiente. </p>
+            <div class="btn-content">
+                <a class="button-vejamais" href="{% url 'app_devicehub:dashboard' %}">Dashboard</a>
+            </div>
+        </div>
+    </section>
+    <!------------------Parte Inferior da aplicação(Rodapé)------------------------------------>
+    <footer>
+        <div id="footer_content"></div>
+        <div style="font-size: 2rem;" id="footer_copyright">
+            &#169 2024 controle de dispositivos / Cadan Distribuição
+        </div>
+    </footer>
+
+</body>
+
+</html>

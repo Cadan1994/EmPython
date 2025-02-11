@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <title>BI01-Financeiro v2024.4.1</title>
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'appbi/css/painelfin01.css' %}">
+        <link rel="icon" href="{% static 'img/logo_cadan_100x118.png' %}" type="image/png">
+    </head>
+    <body>
+        <header>
+            <h2>
+                <img class="img-left" src="{% static 'img/logo_cadan_100x118.png' %}" alt="Ícone Cadan">
+                Análise de Títulos
+                <img class="img-right" src="{% static 'img/logo_cadan_100x118.png' %}" alt="Ícone Cadan">
+            </h2>
+        </header>
+        <hr>
+
+        <!--
+        <div class="container">
+            <div class="div-titulo">MATRIZ</div>
+            <hr>
+            <div class="container-grid">
+                <div>
+                    <h1 class="h1-titulo"><strong>VENDAS R$</strong></h1>
+                    <h4 id="vendamatriz-data-mes">Mês</h4>
+                    <h3 class="h3-valor" id="vendamatriz-valormes">0,00</h3>
+                    <h4 id="vendamatriz-data-dia">Dia</h4>
+                    <h3 class="h3-valor" id="vendamatriz-valordia">0,00</h3>
+                </div>
+                <div>
+                    <h1 class="h1-titulo"><strong>PESO KG</strong></h1>
+                    <h4 id="pesomatriz-data-mes">Mês</h4>
+                    <h3 class="h3-valor" id="pesomatriz-valormes">0,00</h3>
+                    <h4 id="pesomatriz-data-dia">Dia</h4>
+                    <h3 class="h3-valor" id="pesomatriz-valordia">0,00</h3>
+                </div>
+                <div>
+                    <h1 class="h1-titulo"><strong>MARGEM R$</strong></h1>
+                    <h4 id="margemmatriz-data-mes">Mês</h4>
+                    <h3 class="h3-valor" id="margemlucro-matriz">0,00</h3>
+                </div>
+                <div>
+                    <h1 class="h1-titulo"><strong>TENDÊNCIA R$</strong></h1>
+                    <h4 id="tendenciamatriz-data-mes">Mês</h4>
+                    <h3 class="h3-valor" id="tendencia-matriz">0,00</h3>
+                </div>
+                <div>
+                    <h1 class="h1-titulo"><strong>DEVOLUÇÃO R$</strong></h1>
+                    <h4 id="devolucaomatriz-data-mes">Mês</h4>
+                    <h3 class="h3-valor" id="devolucaomatriz-valormes">0,00</h3>
+                    <h4 id="devolucaomatriz-data-dia">Dia</h4>
+                    <h3 class="h3-valor" id="devolucaomatriz-valordia">0,00</h3>
+                </div>
+                <div>
+                    <h1 class="h1-titulo"><strong>ESTOQUE</strong></h1>
+                    <h4>Quantidade</h4>
+                    <h3 class="h3-valor" id="estoqueqtd-matriz">0,00</h3>
+                    <h4>Valor R$</h4>
+                    <h3 class="h3-valor" id="estoquevlr-matriz">0,00</h3>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="div-titulo">FILIAL</div>
+            <hr>
+            <div class="container-grid">
+                <div>
+                    <h1 class="h1-titulo"><strong>VENDAS R$</strong></h1>
+                    <h4 id="vendafilial-data-mes">Mês</h4>
+                    <h3 class="h3-valor" id="vendafilial-valormes">0,00</h3>
+                    <h4 id="vendafilial-data-dia">Dia</h4>
+                    <h3 class="h3-valor" id="vendafilial-valordia">0,00</h3>
+                </div>
+                <div>
+                    <h1 class="h1-titulo"><strong>PESO KG</strong></h1>
+                    <h4 id="pesofilial-data-mes">Mês</h4>
+                    <h3 class="h3-valor" id="pesofilial-valormes">0,00</h3>
+                    <h4 id="pesofilial-data-dia">Dia</h4>
+                    <h3 class="h3-valor" id="pesofilial-valordia">0,00</h3>
+                </div>
+                <div>
+                    <h1 class="h1-titulo"><strong>MARGEM R$</strong></h1>
+                    <h4 id="margemfilial-data-mes">Mês</h4>
+                    <h3 class="h3-valor" id="margemlucro-filial">0,00</h3>
+                </div>
+                <div>
+                    <h1 class="h1-titulo"><strong>TENDÊNCIA R$</strong></h1>
+                    <h4 id="tendenciafilial-data-mes">Mês</h4>
+                    <h3 class="h3-valor" id="tendencia-filial">0,00</h3>
+                </div>
+                <div>
+                    <h1 class="h1-titulo"><strong>DEVOLUÇÃO R$</strong></h1>
+                    <h4 id="devolucaofilial-data-mes">Mês</h4>
+                    <h3 class="h3-valor" id="devolucaofilial-valormes">0,00</h3>
+                    <h4 id="devolucaofilial-data-dia">Dia</h4>
+                    <h3 class="h3-valor" id="devolucaofilial-valordia">0,00</h3>
+                </div>
+                <div>
+                    <h1 class="h1-titulo"><strong>ESTOQUE</strong></h1>
+                    <h4>Quantidade</h4>
+                    <h3 class="h3-valor" id="estoqueqtd-filial">0,00</h3>
+                    <h4>Valor R$</h4>
+                    <h3 class="h3-valor" id="estoquevlr-filial">0,00</h3>
+                </div>
+            </div>
+        </div>
+        -->
+        <footer>
+            <div class="footer-div">
+                <span class="information">&copy; 2024 Cadan Distribuição. Todos direitos reservados</span>
+                <span class="department"><strong>Desenvolvido por: </strong>Hilson Santos «» Departamento TI</span>
+            </div>
+        </footer>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'appbi/js/painelfin01.js' %}"></script>
+        <script>
+            /*
+            window.onload = function(e){
+                openDashboard('{% url "data-bifin01_processo" %}')
+            }
+
+            setInterval(
+                function(e){
+                    openDashboard('{% url "data-bifin01_processo" %}')
+                },
+                43200
+            )
+            */
+        </script>
+    </body>
+</html>

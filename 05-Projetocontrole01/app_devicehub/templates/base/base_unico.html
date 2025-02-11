@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'app_controle/css/base.css' %}">
+    <link rel="icon" href="{% static 'app_controle/img/dip.png' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'app_controle/css/menu.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <title>DeviceHub</title>
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+  <header class="header">
+      <img src="{% static 'app_controle/img/cadan1.jpg' %}" alt="Ícone Cadan" class="header-icon">
+      <h1 class="header-heading">
+          <a href="{% url 'app_devicehub:home' %}" class="header-link">
+           DeviceHub
+          </a>
+      </h1>
+<!----------------------Meu menu superior--------------------------------------------------------------------->
+      <nav class="menu-lateral">
+        <div class="bnt-expandir">
+            <i class="bi bi-list" id="btn-exp"></i>
+        </div>
+
+        <ul>
+            {% if user.is_authenticated %}
+            <li class="item-menu ativo">
+                <a href="{% url 'app_devicehub:home' %}">
+                    <span class="icon"><i class="bi bi-house"></i></span>
+                    <span class="txt-link">Home</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="{% url 'app_devicehub:dispositivos' %}">
+                    <span class="icon"><i class="bi bi-phone"></i></span>
+                    <span class="txt-link">Dispositivos</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="{% url 'app_devicehub:responsaveis' %}">
+                    <span class="icon"><i class="bi bi-person-fill-add"></i></span>
+                    <span class="txt-link">Funcionários</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="{% url 'app_devicehub:devolucao' %}">
+                    <span class="icon"><i class="bi bi-box-seam"></i></span>
+                    <span class="txt-link">Devolução</span>
+                </a>
+            </li>
+             <li class="item-menu">
+                <a href="{% url 'app_devicehub:manutencao' %}">
+                    <span class="icon"><i class="bi bi-wrench-adjustable-circle"></i></span>
+                    <span class="txt-link">Manutenção</span>
+                </a>
+            </li>
+             <li class="item-menu">
+                <a href="{% url 'app_devicehub:tipo' %}">
+                    <span class="icon"><i class="bi bi-plus-circle"></i></span>
+                    <span class="txt-link">Tipo</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="#">
+                    <span class="icon"><i class="bi bi-person"></i></span>
+                    <span class="txt-link">Perfil</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="{% url 'app_devicehub:sair' %}">
+                    <span class="icon"><i class="bi bi-box-arrow-left"></i></span>
+                    <span class="txt-link">Sair</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="item-menu">
+                <a href="{% url 'app_devicehub:login' %}">
+                    <span class="icon"><i class="bi bi-box-arrow-in-right"></i></span>
+                    <span class="txt-link">Login</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+
+    </nav>
+
+    <script src="{% static 'app_controle/js/menu.js' %}"></script>
+
+      <!----------------------campo de pesquisa ------------------------------------------------------------------->
+      <!--div class="search">
+          <form action="{% url 'app_devicehub:search' %}"
+                method="GET"
+          >
+             <input type="search"
+                    class="search-input"
+                    placeholder="search"
+                    id="search"
+                    name="q"
+                    value="{{search_value}}"
+             >
+          </form>
+      </div-->
+  </header>
+  <!------------------------------------Dashboard---------------------------------------------->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+     <main class="content">
+       {% block content %}{% endblock content %}
+     </main>
+</body>
+</html>

@@ -1,0 +1,107 @@
+/* FORMULÁRIO MODAL */
+.div-modal {
+    background-color: #36363670;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* CONTEÚDO */
+    .div-modal-content {
+        background-color: #222C66;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border-radius: 15px;
+        width: 50%;
+        height: auto;
+        border: 2px solid #24242490;
+        box-shadow: 0 0 10px #ffffff;
+        /* BARRA DE TITULO */
+        .div-title {
+            background-color: #222C66;
+            height: 14%;
+            width: 100%;
+            border-radius: 10px 10px 0 0;
+            /* DESCRIÇÃO */
+            .title {
+                font-size: 2.8rem;
+                color: #ffffff;
+                margin: 0;
+            }
+        }
+        .div-form {
+            width: 96%;
+            height: 80%;
+            margin: 1%;
+            .form-floating {
+                width: 100%;
+                text-transform: uppercase;
+                .form-control {
+                     text-transform: uppercase;
+                }
+                .select {
+                     text-transform: none;
+                }
+            }
+            .div-informacao {
+                display: flex;
+                justify-content: left;
+                align-items: center;
+                height: 6vh;
+                color: #ffffff;
+                font-size: 1.15rem;
+            }
+            .divisor {
+                border: 0;
+                height: 5px;
+                background-image: linear-gradient(to right, transparent, rgb(162, 219, 236), transparent);
+
+            }
+            /* DIV DOS BOTÕES SALVAR E CANCELAR */
+            .div-botoes {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                width: auto;
+                height: auto;
+                margin: 2%;
+                /* BOTÃO SALVAR */
+                .button-submit {
+                    background-color: #00800070;
+                    font-size: 1.0rem;
+                    color: #ffffff;
+                    border: none;
+                    border-radius: 10px;
+                    text-align: center;
+                    height: 40px;
+                    width: 120px;
+                }
+                .button-submit:hover {
+                    transform: scale(1.1, 1.1);
+                }
+                /* BOTÃO CANCELAR */
+                .button-reset {
+                    background-color: #FF000070;
+                    font-size: 1.0rem;
+                    color: #ffffff;
+                    border: none;
+                    border-radius: 10px;
+                    text-align: center;
+                    height: 40px;
+                    width: 120px;
+                }
+                .button-reset:hover {
+                    transform: scale(1.1, 1.1);
+                }
+            }
+        }
+    }
+}

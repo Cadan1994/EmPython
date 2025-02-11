@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends "base/base_unico.html" %}
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+   {% block content %}
+     <div class="single-equipamentos">
+       <h1 class="single-equipamentos-name">
+           {{ verdevolucao.devolucao_id }}
+       </h1>
+
+         <p><b>ID:</b> {{ verdevolucao.devolucao_id }}</p>
+         <p><b>Serial do Dispositivo:</b> {{ verdevolucao.ultimo_equipamento }}</p>
+         <p><b>Responsável:</b> {{ verdevolucao.ultimo_responsavel }}</p>
+         <p><b>ID do Responsável:</b> {{ verdevolucao.ultimo_responsavel.responsavel_id }}</p>
+         <p><b>Descrição:</b> {{ verdevolucao.descricao }}</p>
+         <p><b>Data de Devolução:</b> {{ verdevolucao.data_devolucao }}</p>
+         <br>
+         <br>
+
+       <div class="equipamento-links">
+         <a class="btn bnt-primary" href="{% url 'appcd:atualizar_devolucao' verdevolucao.devolucao_id %}">Atualizar</a>
+
+         <br>
+         <br>
+         <form action="{% url 'appcd:excluir_devolucao' verdevolucao.devolucao_id %}" method="POST">
+           {% csrf_token %}
+
+           <button class="btn bnt-link bnt-delete" type="submit">Excluir</button>
+           <br>
+           <br>
+           <a style="text-decoration: none;" class="btn bnt-primary" href="{% url 'appcd:termo_devolucao_responsavel' verdevolucao.ultimo_responsavel.responsavel_id %}">Termo de Devolução</a>
+
+         </form>
+
+       </div>
+
+     </div>
+   {% endblock content %}
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'appcd/css/base.css' %}">
+    <link rel="icon" href="{% static 'appcd/img/ico_cadan.webp' %}" type="image/png">
+    <link rel="stylesheet" type="text/css" href="{% static 'appcd/css/menu.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'appcd/css/dashboard.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <title>Controle de Dispositivos</title>
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+  <header class="header">
+      <h1 class="header-heading">
+          <a href="{% url 'appcd:home' %}" class="header-link">
+           Controle de Dispositivos
+          </a>
+      </h1>
+<!----------------------Meu menu lateral------------------------------------------->
+      <nav class="menu-lateral">
+        <div class="bnt-expandir">
+            <i class="bi bi-list" id="btn-exp"></i>
+        </div>
+
+        <ul>
+            {% if user.is_authenticated %}
+            <li class="item-menu ativo">
+                <a href="{% url 'appcd:home' %}">
+                    <span class="icon"><i class="bi bi-house"></i></span>
+                    <span class="txt-link">Home</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="{% url 'appcd:dispositivos' %}">
+                    <span class="icon"><i class="bi bi-phone"></i></span>
+                    <span class="txt-link">Dispositivos</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="{% url 'appcd:responsaveis' %}">
+                    <span class="icon"><i class="bi bi-person-fill-add"></i></span>
+                    <span class="txt-link">Funcionários</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="{% url 'appcd:devolucao' %}">
+                    <span class="icon"><i class="bi bi-box-seam"></i></span>
+                    <span class="txt-link">Devolução</span>
+                </a>
+            </li>
+             <li class="item-menu">
+                <a href="{% url 'appcd:manutencao' %}">
+                    <span class="icon"><i class="bi bi-wrench-adjustable-circle"></i></span>
+                    <span class="txt-link">Manutenção</span>
+                </a>
+            </li>
+             <li class="item-menu">
+                <a href="{% url 'appcd:tipo' %}">
+                    <span class="icon"><i class="bi bi-plus-circle"></i></span>
+                    <span class="txt-link">Tipo</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="{% url 'appcd:usuario_atualizar' %}">
+                    <span class="icon"><i class="bi bi-person"></i></span>
+                    <span class="txt-link">Perfil</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="{% url 'appcd:sair' %}">
+                    <span class="icon"><i class="bi bi-box-arrow-left"></i></span>
+                    <span class="txt-link">Sair</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="item-menu">
+                <a href="{% url 'appcd:login' %}">
+                    <span class="icon"><i class="bi bi-box-arrow-in-right"></i></span>
+                    <span class="txt-link">Login</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    <script src="{% static 'appcd/js/menu.js' %}"></script>
+  </header>
+<!----------------------Dashboard------------------------------------------->
+ {% block content %}
+  <div class="centro">
+    <div class="painel">
+      <!--CAIXA - TOTAL DE EQUIPAMENTOS-->
+      <div class="card-painel">
+        <h2>Total de Equipamentos: {{ total_equipamentos }}</h2>
+      </div>
+
+      <!--CAIXA - TOTAL DE FUNCIONÁRIOS-->
+      <div class="card-painel">
+        <h2>Total de Funcionários: {{ total_funcionarios }}</h2>
+      </div>
+
+      <!--CAIXA - TOTAL DE DEVOLUÇÃO-->
+      <div class="card-painel">
+        <h2>Total de Devolução: {{ total_devolucao }}</h2>
+      </div>
+
+      <!-- 1- Grafico de pizza-->
+        <div class="chart-container">
+            <h3>POR TIPO</h3>
+            <canvas id="tipoChart"></canvas>
+        </div>
+
+        <!--Tabela - funções-->
+        <div class="card-event">
+            <h2 style="font-size: 2.2rem;">FUNÇÕES</h2>
+            <div class="table-container">
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>Total por função</th>
+                    </tr>
+                    {% for funcao in funcoes_mais_comuns %}
+                    <tr>
+                        <td>{{ funcao.funcao }}</td>
+                        <td>{{ funcao.total_tipos }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2 - Grafico de pizza-->
+        <div class="chart-container">
+            <h3>POR STATUS</h3>
+            <canvas id="statusChart"></canvas>
+        </div>
+
+        <!-- Tabela - informações das devoluções -->
+        <div class="card-event">
+            <h2 style="font-size: 2.2rem;">Devoluções</h2>
+            <div class="table-container">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Total</th>
+                        </tr>
+                        {% for devolucao in devolucoes %}
+                        <tr>
+                            <td>{{ devolucao.descricao }}</td>
+                            <td>{{ devolucao.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 3- Gráfico em barras - Departamento-->
+        <div class="chart-container">
+            <h3>POR DEPARTAMENTO</h3>
+            <canvas id="graficoBarras"></canvas>
+        </div>
+    </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 1 - Total por Tipo, GRAFICO DE PIZZA
+        var tipoChart = new Chart(document.getElementById('tipoChart').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: [{% for tipo, quantidade in total_por_tipo.items %}'{{ tipo }}',{% endfor %}],
+                datasets: [{
+                    label: 'Total por Tipo',
+                    data: [{% for tipo, quantidade in total_por_tipo.items %}{{ quantidade }},{% endfor %}],
+                    backgroundColor: ['#36a2eb', '#ffcd56', '#ff6384', '#fd6b19', '#4bc0c0'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // 2 - Função para carregar e exibir o gráfico de pizza por status
+        function carregarGraficoPizza() {
+            fetch('{% url 'appcd:quantidade_dispositivos' %}')
+            .then(response => response.json())
+            .then(data => {
+                var tipoChart = new Chart(document.getElementById('statusChart').getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: ['Ativos', 'Inativos'],
+                        datasets: [{
+                            label: 'Quantidade de Dispositivos',
+                            data: [data.ativos, data.inativos],
+                            backgroundColor: ['#36a2eb', '#ff6384'], // Cores para Ativo e Inativo
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            });
+        }
+
+        // Chame a função para carregar o gráfico de pizza quando a página for carregada
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarGraficoPizza();
+        });
+
+        // 3 - Função para carregar e exibir o gráfico de barras por departamentos
+        function carregarGraficoBarras() {
+            fetch('{% url 'appcd:dados_departamentos' %}')
+                .then(response => response.json())
+                .then(data => {
+                    var ctx = document.getElementById('graficoBarras').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.departamentos,
+                            datasets: [{
+                                label: 'Quantidade de Dispositivos',
+                                data: data.quantidade_dispositivos,
+                                backgroundColor: 'rgba(54, 162, 235, 0.5)', // Cor para as barras
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Erro ao obter dados:', error));
+        }
+
+        // Chame a função para carregar o gráfico de barras quando a página for carregada
+        document.addEventListener('DOMContentLoaded', carregarGraficoBarras);
+    </script>
+ {% endblock content %}
+  </div>
+</body>
+</html>

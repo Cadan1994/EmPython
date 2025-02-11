@@ -1,0 +1,17 @@
+» CRIA UM AMBIENTE VIRTUAL
+	py -m venv "nome do diretório"
+	
+» INSTALAÇÃO DE PACOTE
+	py -m pip install <nome do pacote>
+	pip install <nome do pacote>
+
+» UPGRADE DE PACOTE
+	py -m pip install --upgrade <nome do pacote>
+	pip install --upgrade <nome do pacote>
+
+» CRIAR O SETUP
+	pyinstaller --onefile "nome do arquivo"
+	
+» CRIAR O ARQUIVO "requeriments.txt"
+	py -m pip freeze > requeriments.txt
+	OBS.: Armazena os pacotes instalados

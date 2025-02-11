@@ -1,0 +1,52 @@
+{% extends 'apppix-base.html' %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'apppix/css/login.css' %}">
+{% endblock%}
+
+{% block 'body' %}
+    {% block 'buttons' %}{% endblock %}
+    {% block 'barra-banco' %}{% endblock %}
+    {% block 'table-custumers' %}{% endblock %}
+    {% block 'table-orders' %}{% endblock %}
+    <div class="flex-container">
+        <div class="div-card">
+            <img class="img-logo-cadan" src="{% static 'apppix/img/login-cadan-360x232.png' %}" alt="Logo do Banco Bradesco">
+            <div class="div-container">
+                <form class="form-login" action="{% url 'login-update-password' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Usuário</label>
+                        <input class="form-control" type="text" id="inputUserName" name="username" value="{{user.username}}" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Senha</label>
+                        <input class="form-control" type="password" id="inputPassword" name="userpassword">
+                    </div>
+                    <div class="mb-3 row">
+                        <button class="btn-password-cancel" type="reset" onclick="window.location.href='{% url 'login-update-password' %}'">Cancelar</button>
+                        <button class="btn-password-update" type="submit">Alterar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% block 'footer' %}{% endblock %}
+
+    {% for message in messages %}
+        <script>
+            document.addEventListener("DOMContentLoaded",
+                function() {
+                    const container = document.getElementById("message-container");
+                    container.textContent = "{{ message }}";
+                    container.style.display = "block";
+                    setTimeout(() => {
+                        container.style.display = "none";
+                    }, 2000);
+                }
+            );
+        </script>
+    {% endfor %}
+
+{% endblock %}

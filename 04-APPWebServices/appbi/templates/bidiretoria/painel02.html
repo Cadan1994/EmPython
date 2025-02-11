@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <title>BI03-Logística v2024.3.1</title>
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'appbi/css/painellog03.css' %}">
+        <link rel="icon" href="{% static 'img/logo_cadan_100x118.png' %}" type="image/png">
+    </head>
+    <body>
+        <header>
+            <h2>
+                <img class="img-left" src="{% static 'img/logo_cadan_100x118.png' %}" alt="Ícone Cadan">
+                Análise de Pedidos de Entrega
+                <img class="img-right" src="{% static 'img/logo_cadan_100x118.png' %}" alt="Ícone Cadan">
+            </h2>
+        </header>
+        <hr>
+        <div class="grid-container">
+            <div class="div-titulo">
+                <h3><strong>LIBERADO</strong></h3>
+            </div>
+            <div class="div-titulo">
+                <h3><strong>SEPARAÇÃO</strong></h3>
+            </div>
+
+            <div class="div-info-pedido">
+                <div class="div-valores">
+                    <p><strong>Peso Kg</strong></p>
+                    <p id="PesoLiberado"></p>
+                </div>
+                <div class="div-valores">
+                    <p><strong>Valor R$</strong></p>
+                    <p id="ValorLiberado"></p>
+                </div>
+            </div>
+
+            <div class="div-info-pedido">
+                <div class="div-valores">
+                    <p><strong>Peso Kg</strong></p>
+                    <p id="PesoSeparacao"></p>
+                </div>
+                <div class="div-valores">
+                    <p><strong>Valor R$</strong></p>
+                    <p id="ValorSeparacao"></p>
+                </div>
+            </div>
+
+            <div class="div-grafico" id="barchart-liberacao"></div>
+            <div class="div-grafico" id="barchart-separacao"></div>
+
+        </div>
+
+        <footer>
+            <div class="footer-div">
+                <span class="information">&copy; 2024 Cadan Distribuição. Todos direitos reservados</span>
+                <span class="department"><strong>Desenvolvido por: </strong>Hilson Santos «» Departamento TI</span>
+            </div>
+        </footer>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'appbi/js/painellog03.js' %}"></script>
+        <script>
+
+            window.onload = function(e){
+                openDashboard('{% url "data-analysis-pedidospeso" %}')
+            }
+
+            setInterval(
+                function(e){
+                    window.location.replace('http://172.16.157.3:8000/appbi/bilog01/')
+                },
+                10000
+            )
+
+            setInterval(
+                function(e){
+                    openDashboard('{% url "data-analysis-pedidospeso" %}')
+                },
+                1000
+            )
+
+        </script>
+    </body>
+</html>

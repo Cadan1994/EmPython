@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+}
+.div-letreiro {
+    width: 100%; /* Largura do letreiro */
+    overflow: hidden; /* Esconde o texto fora da área visível */
+    background-color: #ffffff; /* Cor de fundo do letreiro */
+    color: #000; /* Cor do texto */
+    padding: 10px;
+    box-sizing: border-box;
+    .div-letreiro-texto {
+        display: inline-block;
+        white-space: nowrap; /* Evita quebra de linha */
+        animation: rolar 20s linear infinite; /* Animação de rolagem */
+        font-size: 1.5rem;
+    }
+}
+@keyframes rolar {
+    0% {transform: translateX(100%);}
+    100% {transform: translateX(-100%);}
+}
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    .div-card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 20%;
+        border-radius: 5%;
+        margin: 2%;
+    }
+    .div-card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+    }
+    .img-logo-banco {
+        width: 100%;
+        border-radius: 5% 5% 0 0;
+    }
+    .container {
+        padding: 2px 16px;
+        text-align: center;
+        p {
+            font-size: 1.2rem;
+        }
+    }
+}
+@media screen and (max-width: 992px) {
+  body {
+    background-color: white;
+  }
+}
+@media screen and (max-width: 600px) {
+  body {
+    background-color: white;
+  }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <title>BI02-Logística v2024.3.1</title>
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'appbi/css/painellog02.css' %}">
+        <link rel="icon" href="{% static 'img/logo_cadan_100x118.png' %}" type="image/png">
+    </head>
+    <body>
+        <header>
+            <h2 class="title">
+                <img class="img-left" src="{% static 'img/logo_cadan_100x118.png' %}" alt="Ícone Cadan">
+                Análise de Pedidos Liberados por Intervalos
+                <img class="img-right" src="{% static 'img/logo_cadan_100x118.png' %}" alt="Ícone Cadan">
+            </h2>
+        </header>
+        <hr>
+        <div class="div-row-charts">
+          <div class="div-column-charts" id="barchart-pedentrega-quantidade"></div>
+          <div class="div-column-charts" id="barchart-pedentrega-pesobruto"></div>
+          <div class="div-column-charts" id="piechart-pedentrega-pesobruto"></div>
+        </div>
+
+        <div class="div-row-charts">
+          <div class="div-column-charts" id="barchart-pedretira-quantidade"></div>
+          <div class="div-column-charts" id="barchart-pedretira-pesobruto"></div>
+          <div class="div-column-charts" id="piechart-pedretira-pesobruto"></div>
+        </div>
+
+
+        <footer>
+            <div class="footer-div">
+                <span class="information">&copy; 2024 Cadan Distribuição. Todos direitos reservados</span>
+                <span class="department"><strong>Desenvolvido por: </strong>Hilson Santos «» Departamento TI</span>
+            </div>
+        </footer>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'appbi/js/painellog02.js' %}"></script>
+        <script>
+
+            window.onload = function(e){
+                openDashboard('{% url "data-analysis-pedidosdia" %}')
+            }
+
+            setInterval(
+                function(e){
+                    window.location.replace('http://172.16.157.3:8000/appbi/bilog03/')
+                },
+                10000
+            )
+
+            setInterval(
+                function(e){
+                    openDashboard('{% url "data-analysis-pedidosdia" %}')
+                },
+                1000
+            )
+        </script>
+    </body>
+</html>

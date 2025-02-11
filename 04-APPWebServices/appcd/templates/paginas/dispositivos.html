@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% extends "base/base.html" %}
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+  {% block content %}
+   <div class="responsive-table">
+        <table class="equipamentos-table">
+            <caption class="table-caption">
+              Equipamentos
+            </caption>
+
+            <thead>
+              <tr class="table-row table-row-header">
+                <th class="table-header">ID</th>
+                <th class="table-header">Tipo</th>
+                <th class="table-header">Marca</th>
+                <th class="table-header">Modelo</th>
+                <th class="table-header">Serial</th>
+                <th class="table-header">Imei 1</th>
+                <th class="table-header">Imei 2</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% if equipamentos %}
+              {% for rge in equipamentos %}
+               <tr class="table-row">
+                   <td class="table-cel">
+                       <a class="table-link"
+                          href="{% url 'appcd:ver_equipamento' rge.equipamento_id %}">
+                           {{ rge.equipamento_id }}
+                       </a>
+                   </td>
+                   <td class="table-cel">
+                       {{ rge.tipo }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rge.marca }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rge.modelo }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rge.serial }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rge.imei1 }}
+                   </td>
+                   <td class="table-cel">
+                       {{ rge.imei2 }}
+                   </td>
+               </tr>
+              {% endfor %}
+            {% else %}
+                <tr class="table-row">
+                  <td colspan="7">Nenhum equipamento encontrado</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+   </div>
+  {% endblock content %}
+</body>
+</html>

@@ -1,0 +1,87 @@
+{% extends 'appierp_base.html' %}
+{% load static %}
+
+{% block titulo %}
+    <h1>Cliente Foco/Faixa</h1>
+{% endblock %}
+
+{% block div-tabela-produtos %}{% endblock %}
+{% block input-tela-produto %}{% endblock %}
+
+{% block showmodal %}
+    <div class="div-modal" id="form-modal">
+        <div class="div-modal-content">
+            <div class="div-title">
+                <p class="title" id="p-title-ins"></p>
+            </div>
+
+            <div class="div-form">
+                <form action="{% url 'cliente-update' %}" method="POST">
+                    {% csrf_token %}
+                    <hr class="divisor">
+                    <div class="row g-2">
+                        <div class="col-md">
+                            <div class="form-floating mb-3">
+                                <input
+                                    class="form-control"
+                                    id="form-cliente"
+                                    type="text"
+                                    name="clientedados"
+                                    required="required"
+                                    readonly
+                                >
+                                <label>Cliente</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-md">
+                            <div class="div-check">
+                                <h2><strong>Selecionar Foco</strong></h2>
+                                {% for reg in parametrosfoco %}
+                                <div class="form-check form-switch div-item">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="focodados"
+                                        value="{{reg.FOCO}}"
+                                    >
+                                    {{reg.FOCO}}
+                                    <br>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="div-check">
+                                <h2><strong>Selecionar Faixa</strong></h2>
+                                {% for reg in parametrosfaixa %}
+                                <div class="form-check form-switch div-item">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="faixadados"
+                                        value="{{reg.FAIXA}}"
+                                    >
+                                    {{reg.FAIXA}}
+                                    <br>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="divisor">
+                    <div class="div-botoes">
+                        <button class="button-submit" type="submit">Salvar</button>
+                        <button class="button-reset" type="reset" onclick="fecharModal()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    window.onload = calcularAlturaDaDivTableClientes
+    window.onresize = calcularAlturaDaDivTableClientes
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'appetd-base.html' %}
+{% load static %}
+
+{% block head %}
+    <link href="{% static 'appetd/css/configuracoes.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% block caption %}CONFIGURAÇÕES{% endblock %}
+    <section>
+        <div>
+            <table>
+                <thead>
+                    <tr class="active">
+                        <th class="lg-id">id</th>
+                        <th class="lg-nome">Descrição</th>
+                        <th class="lg-descricao">Parâmetro</th>
+                        <th class="lg-buttom"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="lg-id">001</td>
+                        <td class="lg-nome">CONEXÃO DB SERVIDOR DO DW</td>
+                        <td class="lg-descricao">host=172.16.157.3 port='' dbname='' user='' password=''</td>
+                        <td class="lg-buttom">
+                            <button class="btn-incluir"  type="submit">Incluir</button>
+                            <button class="btn-editar"  type="submit">Editar</button>
+                            <button class="btn-excluir" type="submit">Excluir</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lg-id">002</td>
+                        <td>CONEXÃO DB SERVIDOR DO ERP</td>
+                        <td>user/password@192.168.168.200:port/base</td>
+                        <td class="lg-buttom">
+                            <button class="btn-incluir"  type="submit">Incluir</button>
+                            <button class="btn-editar"  type="submit">Editar</button>
+                            <button class="btn-excluir" type="submit">Excluir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

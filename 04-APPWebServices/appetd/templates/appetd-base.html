@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>APPETD versão 2024.12.0.13</title>
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'appetd/css/geral.css' %}">
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'appetd/img/logo-sistema-500x399.ico' %}">
+        {% block 'head' %}{% endblock %}
+    </head>
+    <body>
+        <div class="message-container" id="message-container"></div>
+        <div class="div-header">
+            <div class="div-image-left">
+                <img class="image-header-left" src="{% static 'appetd/img/logo-sistema-500x399.png' %}" alt="Logo do PIX">
+            </div>
+            <div class="div-titulo">
+                <p class="p-header">Gerenciamento do ETL</p>
+            </div>
+            <div class="div-image-right">
+                <img class="image-header-right" src="{% static 'img/logo-cadan-500x612.png' %}" alt="Logo do CADAN">
+            </div>
+        </div>
+        <div class="div-divisor"></div>
+        {% block 'footer' %}
+        <footer>
+            <div class="div-footer">
+                <li class="li-information"><strong>&copy;2024 Cadan Distribuição. Todos direitos reservados</strong></li>
+                <li class="li-development"><strong>Desenvolvimento:</strong>  Hilson Santos (TI)</li>
+                <li class="li-datetime" id="datetime"><strong>Data/Hora: </strong>00/00/0000 00:00:00</li>
+            </div>
+        </footer>
+        {% endblock %}
+
+        <script src="{% static 'appetd/js/geral.js' %}"></script>
+        <script src="{% static 'js/jquery.js' %}"></script>
+
+        {% for message in messages %}
+            <script>
+                document.addEventListener("DOMContentLoaded",
+                    function() {
+                        const container = document.getElementById("message-container");
+                        container.textContent = "{{ message }}";
+                        container.style.display = "block";
+                        setTimeout(() => {
+                            container.style.display = "none";
+                        }, 2000);
+                    }
+                );
+            </script>
+        {% endfor %}
+
+        {% block 'body' %}{% endblock %}
+        <!--
+        <header>
+            {% block header %}
+            <nav>
+                {% block menu %}
+                    <ul>
+                    <li><img src="{% static 'img/logo_cadan_100x118.png' %}" alt="Logo do sistema"></li>
+                    <li><a class="active">CADAN DISTRIBUIÇÃO</a></li>
+                    <li><a href="#">Criar Tabelas</a></li>
+                    <li><a href="#">Criar Select's</a></li>
+                    <li><a href="#">Configurações</a></li>
+                    <li><a href="#">Ajuda</a></li>
+                    <li class="help-li"><a class="help-a" href="#">&#128275; Fechar</a></li>
+                    </ul>
+                {% endblock %}
+                {% block title %}
+                    <ul>
+                        <li><img src="{% static 'img/logo_cadan_100x118.png' %}" alt="Logo do sistema"></li>
+                        <li>
+                            <a class="active">
+                                CADAN DISTRIBUIÇÃO
+                                {% block simbolo %}&#129034;{% endblock %}
+                                {% block caption %}{% endblock %}
+                            </a>
+                        </li>
+                        {% block voltar %}
+                            <li class="help-li"><a class="help-a" href="{% url 'home' %}">&#129032; Voltar</a></li>
+                        {% endblock %}
+                    </ul>
+                {% endblock %}
+            </nav>
+            {% endblock %}
+        </header>
+
+        <main>
+            {% block main %}
+            <div class="div-operation">
+                <div class="div-input-search">
+                    <img src="{% static 'img/search.png' %}" alt="">
+                    <input id="search-input" type="text" maxlength="800" onkeyup="filterRegister()" placeholder="Procurar..." />
+                </div>
+                <div class="div-buttons">
+                    <button
+                            class="button-operation"
+                            id="button-insert"
+                            onclick="abrirModalIns()">
+                            &#10010;&nbsp;&nbsp;
+                            Novo
+                    </button>
+                </div>
+            </div>
+            {% endblock %}
+        </main>
+
+        <section>
+            {% block section %}{% endblock %}
+        </section>
+
+        <footer>
+            <div class="footer-div">
+                <li class="informacao">&copy;2023 Cadan Distribuição. Todos direitos reservados</li>
+                <li class="data-hora" id="data-hora"><strong>Data/Hora: </strong>00/00/0000 00:00:00</li>
+            </div>
+        </footer>
+
+
+        {% block showmodal %}{% endblock %}
+
+
+        -->
+
+
+
+    </body>

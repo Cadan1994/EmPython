@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+{% extends "base/base-d.html" %}
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+ {% block content %}
+ <!------------------------------------------------------------------->
+    <main>
+        <section class="events">
+            <div class="block-events" style="grid-template-columns: repeat(2, 1fr); ">
+                <div class="card-event">
+                    <h2 style="font-size: 2.2rem;">DISPOSITIVOS</h2>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>TOTAL DE DISPOSITIVOS: <span id="total_equipamentos"></span></th>
+                                <th></th>
+                            </tr>
+
+                            <tr>
+                                <th>TIPO</th>
+                                <th class="table-quantidade">QUANTIDADE</th>
+                            </tr>
+
+                            <tr>
+                                <td><ul id="total_por_tipo_list"></ul></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!--div class="card-event">
+                    <h2 style="font-size: 2.2rem;">FUNCIONÁRIOS</h2>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th></th>
+                                <th class="table-quantidade">QUANTIDADE</th>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td class="table-quantidade"></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div-->
+
+                <div class="card-event">
+                    <h2 style="font-size: 2.2rem;">DEVOLUÇÃO</h2>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>TOTAL DE DEVOLUÇÕES: <span id="total_devolucoes"></span></th>
+                            </tr>
+
+                            <tr>
+                                <th>MOTIVOS DA DEVOLUÇÃO </th>
+                            </tr>
+
+                            <tr>
+                                <td><ul id="principais_motivos_devolucao"></ul></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card-event">
+                    <h2 style="font-size: 2.2rem;">MANUTENÇÃO</h2>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>TOTAL EM MANUTENÇÃO: <span id="total_equipamentos_manutencao"></span> </th>
+                            </tr>
+
+                            <tr>
+                                <th>MOTIVOS DA MANUTENÇÃO </th>
+                            </tr>
+
+                            <tr>
+                                <td><ul id="principais_motivos_manutencao"></ul></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card-event">
+                    <h2 style="font-size: 2.2rem;">FUNCIONÁRIOS</h2>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>DISPOSITIVOS POR FUNÇÕES </th>
+                            </tr>
+
+                            <tr>
+                                <td><ul id="funcoes_mais_comuns_list"></ul></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card-event">
+               <h2 style="font-size: 2.2rem;">DEPARTAMENTOS COM MAIS TIPOS DE EQUIPAMENTOS</h2>
+               <div class="table-container">
+               <ul id="departamentos_mais_comuns_list"></ul>
+               </div>
+               </div>
+
+            </div>
+        </section>
+        <script>
+        fetch('/total-equipamentos/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('total_equipamentos').textContent = data.total_equipamentos;
+            })
+            .catch(error => console.error('Erro ao buscar total de equipamentos:', error));
+
+
+        fetch('/total-por-tipo/')
+            .then(response => response.json())
+            .then(data => {
+                const totalPorTipoList = document.getElementById('total_por_tipo_list');
+                for (const [tipo, quantidade] of Object.entries(data.total_por_tipo)) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${tipo}: ${quantidade}`;
+                    totalPorTipoList.appendChild(listItem);
+                }
+            })
+            .catch(error => console.error('Erro ao buscar total de equipamentos por tipo:', error));
+
+        fetch('/funcoes-com-mais-tipos/')
+            .then(response => response.json())
+            .then(data => {
+                const funcoesMaisComunsList = document.getElementById('funcoes_mais_comuns_list');
+                data.funcoes_mais_comuns.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${item.funcao}: ${item.total_tipos}`;
+                    funcoesMaisComunsList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Erro ao buscar funções com mais tipos de equipamentos:', error));
+
+        fetch('/info-manutencao/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('total_equipamentos_manutencao').textContent = data.total_equipamentos_manutencao;
+
+                const principaisMotivosList = document.getElementById('principais_motivos_manutencao');
+                data.equipamentos_manutencao.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${item.descricao}: ${item.total}`;
+                    principaisMotivosList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Erro ao buscar informações de manutenção:', error));
+
+        fetch('/info-devolucao/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('total_devolucoes').textContent = data.total_devolucoes;
+
+                const principaisMotivosList = document.getElementById('principais_motivos_devolucao');
+                data.devolucoes.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${item.descricao}: ${item.total}`;
+                    principaisMotivosList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Erro ao buscar informações de devolução:', error));
+
+         //por setor
+
+        fetch('/departamentos-com-mais-tipos/')
+        .then(response => response.json())
+        .then(data => {
+            const departamentosMaisComunsList = document.getElementById('departamentos_mais_comuns_list');
+            data.departamentos_mais_comuns.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${item.departamento}: ${item.total_tipos}`;
+                departamentosMaisComunsList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Erro ao buscar departamentos com mais tipos de equipamentos:', error));
+</script>
+
+
+    </script>
+    </main>
+ {% endblock content %}
+</body>
+</html>

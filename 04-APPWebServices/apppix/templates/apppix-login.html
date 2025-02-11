@@ -1,0 +1,57 @@
+{% extends 'apppix-base.html' %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'apppix/css/login.css' %}">
+{% endblock%}
+
+{% block 'body' %}
+    {% block 'buttons' %}{% endblock %}
+    {% block 'barra-banco' %}{% endblock %}
+    {% block 'table-custumers' %}{% endblock %}
+    {% block 'table-orders' %}{% endblock %}
+    <div class="flex-container">
+        <div class="div-card">
+            <img class="img-logo-cadan" src="{% static 'apppix/img/login-cadan-360x232.png' %}" alt="Logo do Banco Bradesco">
+            <div class="div-container">
+                <form class="form-login" action="{% url 'login-authentication' %}" method="GET">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Empresa</label>
+                        <select class="form-select" name="usercampany">
+                              <option value="1">CADAN MATRIZ</option>
+                              <option value="2">CADAN FILIAL</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Usuário</label>
+                        <input class="form-control" type="text" id="inputUserName" name="username">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Senha</label>
+                        <input class="form-control" type="password" id="inputPassword" name="userpassword">
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn-login" type="submit">Entrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'apppix/js/login.js' %}"></script>
+    {% for message in messages %}
+        <script>
+            document.addEventListener("DOMContentLoaded",
+                function() {
+                    const container = document.getElementById("message-container");
+                    container.textContent = "{{ message }}";
+                    container.style.display = "block";
+                    setTimeout(() => {
+                        container.style.display = "none";
+                    }, 2000);
+                }
+            );
+        </script>
+    {% endfor %}
+
+{% endblock %}

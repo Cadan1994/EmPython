@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <title>Gerenciamento PIX v2024.1029.1</title>
+        <link rel="shortcut icon" href="{% static 'apppix/img/logo-pix-amarelo.ico' %}" type="image/x-icon">
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'apppix/css/geral.css' %}">
+        {% block 'head' %}{% endblock %}
+    </head>
+    <body>
+        <div class="message-container" id="message-container"></div>
+        <div class="div-header">
+            <div class="div-image-left">
+                <img class="image-header-left" src="{% static 'apppix/img/logo-pix-239x139.png' %}" alt="Logo do PIX">
+            </div>
+            <div class="div-titulo">
+                <p class="p-header">Gerenciamento de PIX</p>
+            </div>
+            <div class="div-image-right">
+                <img class="image-header-right" src="{% static 'apppix/img/logo-cadan-184x230.png' %}" alt="Logo do CADAN">
+            </div>
+            {% block 'buttons' %}
+            <div class="div-buttons-right-operation">
+                <a href="{% url 'logoff' %}">
+                    <div class="div-button-right">
+                        Fazer Logoff
+                    </div>
+                </a>
+                <a href="{% url 'login-select' %}">
+                    <div class="div-button-right">
+                        Alterar Senha
+                    </div>
+                </a>
+            </div>
+            {% endblock %}
+        </div>
+        <div class="div-divisor"></div>
+        {% block 'barra-banco' %}
+            <div class="div-information-bank">
+                {% block 'btn-back-gpix' %}
+                <div class="div-header-back-gpix">
+                    <a href="{% url 'home' %}">
+                        <img class="image-header-back" src="{% static 'apppix/img/voltar.png' %}" alt="Voltar">
+                    </a>
+                </div>
+                {% endblock %}
+                {% block 'btn-back-gpix-pedidos' %}
+                <div class="div-header-back-gpixpedidos">
+                    <a href="{% url 'pix-manager-brasil-custumers' %}">
+                        <img class="image-header-back" src="{% static 'apppix/img/voltar.png' %}" alt="Voltar">
+                    </a>
+                </div>
+                {% endblock %}
+                {% if banco.codigo == '001' %}
+                    <img class="image-header-left" src="{% static 'apppix/img/logo-bbrasil.png' %}" alt="Logo BRASIL">
+                {% elif banco.codigo == '033' %}
+                    <img class="image-header-left" src="{% static 'apppix/img/logo-bsantander.png' %}" alt="Logo SANTANDER">
+                {% else %}
+                    <img class="image-header-left" src="{% static 'apppix/img/logo-bbradesco.png' %}" alt="Logo BRADESCO">
+                {% endif %}
+                <div class="div-titulo">
+                    {% if banco.codigo == '001' %}
+                        <p class="p-header">Brasil</p>
+                    {% elif banco.codigo == '033' %}
+                        <p class="p-header">Santander</p>
+                    {% else %}
+                        <p class="p-header">Bradesco</p>
+                    {% endif %}
+                </div>
+                {% block 'div-input-search' %}
+                    <div class="div-input-search">
+                        <img src="{% static 'img/search.png' %}" alt="">
+                        <input id="search-input-customer" type="text" maxlength="800" onkeyup="filterCustomer()" placeholder="Procurar..." />
+                    </div>
+                {% endblock %}
+                {% block 'div-input-customer' %}
+                    <div class="div-input-customer" id="input-customer"></div>
+                {% endblock %}
+                {% block 'div-input-toupdate' %}
+                    <div class="div-input-toupdate">
+                        <a href="{% url 'pix-manager-brasil-custumers' %}">
+                            <img class="img-input-toupdate" src="{% static 'apppix/img/updated.png/' %}" alt="Atualizar">
+                        </a>
+                    </div>
+                {% endblock %}
+            </div>
+        {% endblock %}
+        {% block 'footer' %}
+        <footer>
+            <div class="div-footer">
+                <li class="li-information"><strong>&copy;2024 Cadan Distribuição. Todos direitos reservados</strong></li>
+                <li class="li-development"><strong>Desenvolvimento:</strong>  Hilson Santos (TI)</li>
+                <li class="li-datetime" id="datetime"><strong>Data/Hora: </strong>00/00/0000 00:00:00</li>
+            </div>
+        </footer>
+        {% endblock %}
+        {% block 'body' %}{% endblock %}
+    </body>
+</html>

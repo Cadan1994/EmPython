@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends "base/base_unico.html" %}
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeviceHub</title>
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+   {% block content %}
+     <div class="single-equipamentos">
+       <h1 class="single-equipamentos-name">
+           {{ verequipamentos.serial }}
+       </h1>
+
+         <p><b>ID:</b> {{ verequipamentos.equipamento_id }}</p>
+         <p><b>Tipo:</b> {{ verequipamentos.tipo }}</p>
+         <p><b>Marca:</b> {{ verequipamentos.marca }}</p>
+         <p><b>Modelo:</b> {{ verequipamentos.modelo }}</p>
+         <p><b>Serial:</b> {{ verequipamentos.serial }}</p>
+         <p><b>Imei 1:</b> {{ verequipamentos.imei1 }}</p>
+         <p><b>Imei 2:</b> {{ verequipamentos.imei2 }}</p>
+         <p><b>Processador:</b> {{ verequipamentos.processador }}</p>
+         <p><b>Memoria:</b> {{ verequipamentos.memoria }}</p>
+         <p><b>Status:</b> {{ verequipamentos.status }}</p>
+         <p><b>Descrição:</b> {{ verequipamentos.descricao }}</p>
+         <p><b>Valor:</b> {{ verequipamentos.valor }}</p>
+         <p><b>Data de cadastro:</b> {{ verequipamentos.data_entrega }}</p>
+         <br>
+         <br>
+
+       <div class="equipamento-links">
+         <a class="btn bnt-primary" href="{% url 'app_devicehub:atualizar_equipamento' verequipamentos.equipamento_id %}">Atualizar</a>
+         <br>
+         <br>
+         <form action="{% url 'app_devicehub:excluir_equipamento' verequipamentos.equipamento_id %}" method="POST">
+           {% csrf_token %}
+
+           <button class="btn bnt-link bnt-delete" type="submit">Excluir</button>
+         </form>
+
+       </div>
+
+     </div>
+   {% endblock content %}
+</body>
+</html>

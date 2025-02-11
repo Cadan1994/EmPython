@@ -1,0 +1,49 @@
+{% extends 'apppix-base.html' %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'apppix/css/home.css' %}">
+{% endblock%}
+
+{% block 'body' %}
+
+    <div class="div-letreiro">
+        <div class="div-letreiro-texto">
+            <b>Unidade Recife</b> Rod. BR101 Sul, Km 73, 4505, Galpao A Ibura - Recife/PE CEP 51240-340 «»
+            <b>Unidade Petrolina</b> Av. Deputado Ulisses Guimaraes, 600 Cosme e Damião - Petrolina/PE CEP 56313-015
+        </div>
+    </div>
+    <div class="flex-container">
+        {% block 'barra-banco' %}{% endblock %}
+        {% block 'table-custumers' %}{% endblock %}
+        {% block 'table-orders' %}{% endblock %}
+        <div class="div-card">
+            <a href="#" value="237">
+                <img class="img-logo-banco" src="{% static 'apppix/img/logo-bbradesco.png' %}" alt="Logo do Banco Bradesco">
+            </a>
+            <div class="container">
+                <h2><b>BRADESCO</b></h2>
+                <p>Gerenciar PIX</p>
+            </div>
+        </div>
+        <div class="div-card">
+            <a href="#" name="banco" value="033">
+                <img class="img-logo-banco" src="{% static 'apppix/img/logo-bsantander.png' %}" alt="Logo do Banco Santander">
+            </a>
+            <div class="container">
+                <h2><b>SANTANDER</b></h2>
+                <p>Gerenciar PIX</p>
+            </div>
+        </div>
+        <div class="div-card">
+            <a href="{% url 'pix-manager-brasil-custumers' %}" name="banco" value="001">
+                <img class="img-logo-banco" src="{% static 'apppix/img/logo-bbrasil.png' %}" alt="Logo do Banco Brasil">
+            </a>
+            <div class="container">
+                <h2><b>BRASIL</b></h2>
+                <p>Gerenciar PIX</p>
+            </div>
+        </div>
+    </div>
+<script src="{% static 'apppix/js/home.js' %}"></script>
+{% endblock%}

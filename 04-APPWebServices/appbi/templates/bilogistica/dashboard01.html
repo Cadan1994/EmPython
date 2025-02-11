@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <title>BI03-Logística v2024.3.1</title>
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'appbi/css/dashboardlog01.css' %}">
+        <link rel="icon" href="{% static 'img/logo_cadan_100x118.png' %}" type="image/png">
+    </head>
+    <body>
+        <header>
+            <h2>
+                <img class="img-left" src="{% static 'img/logo_cadan_100x118.png' %}" alt="Ícone Cadan">
+                Análise de Pedidos
+                <hr>
+            </h2>
+        </header>
+
+        <div class="container-left">
+            <div class="column-menu">
+                <p><strong>Filtros</strong></p>
+                <hr class="hr-menu">
+                <form action="{% url 'biloganalise01' %}" method="GET">
+                    {% csrf_token %}
+                    <label id="Type">Tipo:</label>
+                    <select class="form-select" name="type" id="filter-type">
+                        {% for reg in type %}
+                            <option value="{{reg}}">{{reg}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label>Situação:</label>
+                    <select class="form-select" name="situation" id="filter-situation">>
+                        {% for reg in situation %}
+                            <option value="{{reg}}">{{reg}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label>Crítica:</label>
+                    <select class="form-select" name="criticize" id="filter-criticize">
+                        {% for reg in criticize %}
+                            <option value="{{reg}}">{{reg}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label>Rota:</label>
+                    <select class="form-select" name="route" id="filter-route">
+                        {% for reg in route %}
+                            <option value="{{reg}}">{{reg}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label>Data:</label>
+                    <select class="form-select" name="date" id="filter-date">
+                        {% for reg in date %}
+                            <option value="{{reg}}">{{reg}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <hr class="hr-button">
+                    <button type="submit">Filtrar</button>
+                </form>
+            </div>
+        </div>
+        <div class="container-right">
+            <div class="column-graphic">
+                <div class="graphics-container">
+                    <div class="card-graphic">
+                        <div class="div-title">
+                            <p>Pedidos por Data</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="myPlot1"></canvas>
+                        </div>
+                    </div>
+                    <div class="card-table-routes">
+                        <div class="div-title">
+                            <p>Pedidos por Rota</p>
+                        </div>
+                        <div class="chart-container">
+                            <table>
+                                <tbody>
+                                    {% for reg in routes %}
+                                    <tr>
+                                        <td class="col-description">{{reg.DESCROTA}}</td>
+                                        <td class="col-amount">{{reg.NROPEDVENDA}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-table-clients">
+                        <div class="div-title">
+                            <p>Pedidos por Cliente</p>
+                        </div>
+                        <div class="chart-container">
+                            <table>
+                                <tbody>
+                                    {% for reg in clients %}
+                                    <tr>
+                                        <td class="col-description">{{reg.NOMERAZAO}}</td>
+                                        <td class="col-amount">{{reg.NROPEDVENDA}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-div">
+                <span class="information">&copy; 2024 Cadan Distribuição. Todos direitos reservados</span>
+                <span class="department"><strong>Desenvolvido por: </strong>Hilson Santos «» Departamento TI</span>
+            </div>
+        </footer>
+
+        <script src="{% static 'js/chart.js' %}"></script>
+        <script src="{% static 'appbi/js/dashboardlog01.js' %}"></script>
+        <script>
+
+            window.onload = function(e){
+                openDashboard('{% url "data-bilog01_processo" %}')
+            }
+
+        </script>
+    </body>
+</html>

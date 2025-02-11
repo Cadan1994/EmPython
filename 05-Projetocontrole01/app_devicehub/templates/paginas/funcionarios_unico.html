@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% extends "base/base_unico.html" %}
+{% load static %}
+<html lang="pt-br">
+<!-------Cabeçalho-------------------------------------------------------------------->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeviceHub</title>
+</head>
+<!-------Corpo-------------------------------------------------------------------->
+<body>
+   {% block content %}
+     <div class="single-equipamentos">
+       <h1 class="single-equipamentos-name">
+           {{ verresponsaveis.nome }}
+       </h1>
+
+         <p><b>ID:</b> {{ verresponsaveis.responsavel_id }}</p>
+         <p><b>Nome:</b> {{ verresponsaveis.nome }}</p>
+         <p><b>RG:</b> {{ verresponsaveis.rg }}</p>
+         <p><b>CPF:</b> {{ verresponsaveis.cpf }}</p>
+         <p><b>Departamento:</b> {{ verresponsaveis.departamento }}</p>
+         <p><b>Função:</b> {{ verresponsaveis.funcao }}</p>
+
+         {% if verresponsaveis.equipamento_responsavel.all %}
+         <p><b>Dispositivo:</b> {{ verresponsaveis.equipamento_responsavel.first.equipamento_id }}</p>
+         {% else %}
+         <p><b>Dispositivo:</b> Nenhum dispositivo associado</p>
+         {% endif %}
+
+         <p><b>Telefone:</b> {{ verresponsaveis.telefone_celular }}</p>
+         <p><b>Data de Cadastro:</b> {{ verresponsaveis.data_entrega }}</p>
+         <br>
+         <br>
+
+       <div class="equipamento-links">
+         <a class="btn bnt-primary" href="{% url 'app_devicehub:atualizar_responsavel' verresponsaveis.responsavel_id %}">Atualizar</a>
+         <br>
+         <br>
+         <form action="{% url 'app_devicehub:excluir_responsavel' verresponsaveis.responsavel_id %}" method="POST">
+           {% csrf_token %}
+
+           <button class="btn bnt-link bnt-delete" type="submit">Excluir</button>
+
+           <br>
+           <br>
+           <a  style="text-decoration: none;" class="btn bnt-primary"
+              href="{% if verresponsaveis.equipamento_responsavel.all %}{% url 'app_devicehub:termo_responsabilidade' verresponsaveis.equipamento_responsavel.first.equipamento_id %}{% endif %}">Termo de Responsabilidade</a>
+
+         </form>
+
+       </div>
+     </div>
+   {% endblock content %}
+</body>
+</html>
