@@ -42,6 +42,139 @@ def etl_fatos():
         fun.create_table(tbl.CreateTable_ProdutosPrecoVenda)
 
         ###############################################################################################################
+        # BUSCA DADOS DAS TABELAS MRL_PRODEMPSEG INNER JOIN "MAP_FAMEMBALAGEM", "MAP_FAMDIVISAO"
+        ###############################################################################################################
+        pga_conexao = fun.conect_postgresql()
+        cursor = pga_conexao.cursor()
+        cursor.execute("SELECT seqproduto FROM pbi.carga_produtoprecovenda")
+        colunas = [col[0] for col in cursor.description]
+        dados = cursor.fetchall()
+        produto_preco_venda = pd.DataFrame(dados, columns=colunas)
+        total_reg = produto_preco_venda["seqproduto"].count()
+
+        if total_reg == 0:
+            operacao = 1
+            select_produto_preco_venda \
+                = \
+                """
+                SELECT
+                    DISTINCT	
+                    a.nroempresa,	
+                    a.seqproduto,
+                    ROUND(a.precogernormal/c.qtdembalagem,2) AS precogernormal,
+                    ROUND(a.precogerpromoc/c.qtdembalagem,2) AS precogerpromoc,
+                    ROUND(
+                    CASE
+                    WHEN a.precogerpromoc = 0
+                    THEN a.precogernormal
+                    ELSE a.precogerpromoc
+                    END / a.qtdembalagem,2) AS precogervenda,
+                    TO_DATE(a.dtaalteracao) AS dtaalteracao
+                FROM implantacao.mrl_prodempseg a
+                INNER JOIN implantacao.map_produto b ON b.seqproduto = a.seqproduto
+                INNER JOIN implantacao.map_famembalagem c ON c.seqfamilia = b.seqfamilia AND c.qtdembalagem = a.qtdembalagem
+                INNER JOIN implantacao.map_famdivisao d ON d.seqfamilia = b.seqfamilia
+                INNER JOIN implantacao.map_famembalagem e ON e.seqfamilia = b.seqfamilia AND e.qtdembalagem = d.padraoembcompra
+                WHERE 1 = 1
+                AND a.precogernormal > 0
+                AND a.nrosegmento IN (1,3,4,5,6,7,8,9,10)
+                AND a.statusvenda = 'A'
+                ORDER BY 2 ASC                
+                """
+        else:
+            operacao = 2
+            select_produto_preco_venda \
+                = \
+                """
+                SELECT
+                    DISTINCT	
+                    a.nroempresa,	
+                    a.seqproduto,
+                    ROUND(a.precogernormal/c.qtdembalagem,2) AS precogernormal,
+                    ROUND(a.precogerpromoc/c.qtdembalagem,2) AS precogerpromoc,
+                    ROUND(
+                    CASE
+                    WHEN a.precogerpromoc = 0
+                    THEN a.precogernormal
+                    ELSE a.precogerpromoc
+                    END / a.qtdembalagem,2) AS precogervenda,
+                    TO_DATE(a.dtaalteracao) AS dtaalteracao
+                FROM implantacao.mrl_prodempseg a
+                INNER JOIN implantacao.map_produto b ON b.seqproduto = a.seqproduto
+                INNER JOIN implantacao.map_famembalagem c ON c.seqfamilia = b.seqfamilia AND c.qtdembalagem = a.qtdembalagem
+                INNER JOIN implantacao.map_famdivisao d ON d.seqfamilia = b.seqfamilia
+                INNER JOIN implantacao.map_famembalagem e ON e.seqfamilia = b.seqfamilia AND e.qtdembalagem = d.padraoembcompra
+                WHERE 1 = 1
+                AND a.precogernormal > 0
+                AND a.nrosegmento IN (1,3,4,5,6,7,8,9,10)
+                AND a.statusvenda = 'A'
+                AND TO_DATE(a.dtaalteracao) >= SYSDATE-1
+                ORDER BY 2 ASC               
+                """
+        ora_conexao = fun.conect_oracle()
+        cursor = ora_conexao.cursor()
+        cursor.execute(select_produto_preco_venda)
+        dados = cursor.fetchall()
+        colunas = [row[0] for row in cursor.description]
+        produto_preco_venda = pd.DataFrame.from_records(dados, columns=colunas)
+        total_reg = produto_preco_venda["SEQPRODUTO"].count()
+
+        print("Execultado processo na tabela de \"Cadastro Produtos Preco Venda\" ...")
+
+        with open(NomeArquivo, "a") as arquivo:
+            arquivo.write("» Execultado processo na tabela de \"Cadastro Produtos Preco Venda\" ...\n")
+        arquivo.close()
+
+        campos = "(nroempresa,seqproduto,precogernormal,precogerpromoc,precogervenda)"
+        i = 0
+        dados = ""
+        parametro = 1000
+        if total_reg < 1000:
+            parametro = total_reg
+
+        for index, reg in produto_preco_venda.iterrows():
+            nroempresa = str(reg.NROEMPRESA)
+            seqproduto = str(reg.SEQPRODUTO)
+            precogernormal = str(reg.PRECOGERNORMAL)
+            precogerpromoc = str(reg.PRECOGERPROMOC)
+            precogervenda = str(reg.PRECOGERVENDA)
+
+            if (i == 0):
+                virgula = ""
+            else:
+                virgula = ","
+
+            dados = dados + virgula + "('" + nroempresa + "','" + seqproduto + "','" + precogernormal + "','" + precogerpromoc + "','" + precogervenda + "')\n"
+
+            i += 1
+
+            if i == parametro:
+                if operacao == 1:
+                    sql_insert \
+                        = "insert into pbi.carga_produtoprecovenda\n" + campos + "\nvalues\n" + dados + "\n"
+                    fun.process_data(sql_insert)
+                else:
+                    sql_update \
+                        = \
+                        "UPDATE pbi.carga_produtoprecovenda " \
+                        "SET " \
+                        "precogernormal = '" + precogernormal + "'," \
+                        "precogerpromoc = '" + precogerpromoc + "'," \
+                        "precogervenda = '" + precogervenda + "' " \
+                        "WHERE 1 = 1 " \
+                        "AND nroempresa = '" + nroempresa + "' " \
+                        "AND seqproduto = '" + seqproduto + "'"
+                    fun.process_data(sql_update)
+                total_reg -= i
+
+                if total_reg < parametro:
+                    parametro = total_reg
+                i = 0
+
+                dados = ""
+        cursor.close()
+
+        ###############################################################################################################
         # BUSCA DADOS DAS TABELAS MAD_METAPERIODO INNER JOIN MAD_METAREPRESENTANTE
         ###############################################################################################################
         print("Execultado processo na tabela de \"Metas Representantes\" ...")
@@ -607,139 +740,6 @@ def etl_fatos():
                     Parametro = TotalReg
                 I = 0
                 Dados = ""
-        cursor.close()
-
-        ###############################################################################################################
-        # BUSCA DADOS DAS TABELAS MRL_PRODEMPSEG INNER JOIN "MAP_FAMEMBALAGEM", "MAP_FAMDIVISAO"
-        ###############################################################################################################
-        pga_conexao = fun.conect_postgresql()
-        cursor = pga_conexao.cursor()
-        cursor.execute("SELECT seqproduto FROM pbi.carga_produtoprecovenda")
-        colunas = [col[0] for col in cursor.description]
-        dados = cursor.fetchall()
-        produto_preco_venda = pd.DataFrame(dados, columns=colunas)
-        total_reg = produto_preco_venda["seqproduto"].count()
-
-        if total_reg == 0:
-            operacao = 1
-            select_produto_preco_venda \
-                = \
-                """
-                SELECT
-		            DISTINCT	
-		            a.nroempresa,	
-                    a.seqproduto,
-                    ROUND(a.precogernormal/c.qtdembalagem,2) AS precogernormal,
-                    ROUND(a.precogerpromoc/c.qtdembalagem,2) AS precogerpromoc,
-                    ROUND(
-                    CASE
-                    WHEN a.precogerpromoc = 0
-                    THEN a.precogernormal
-                    ELSE a.precogerpromoc
-                    END / a.qtdembalagem,2) AS precogervenda,
-                    TO_DATE(a.dtaalteracao) AS dtaalteracao
-                FROM implantacao.mrl_prodempseg a
-                INNER JOIN implantacao.map_produto b ON b.seqproduto = a.seqproduto
-                INNER JOIN implantacao.map_famembalagem c ON c.seqfamilia = b.seqfamilia AND c.qtdembalagem = a.qtdembalagem
-                INNER JOIN implantacao.map_famdivisao d ON d.seqfamilia = b.seqfamilia
-                INNER JOIN implantacao.map_famembalagem e ON e.seqfamilia = b.seqfamilia AND e.qtdembalagem = d.padraoembcompra
-                WHERE 1 = 1
-                AND a.precogernormal > 0
-                AND a.nrosegmento IN (1,3,4,5,6,7,8,9,10)
-                AND a.statusvenda = 'A'
-                ORDER BY 2 ASC                
-                """
-        else:
-            operacao = 2
-            select_produto_preco_venda \
-                = \
-                """
-                SELECT
-		            DISTINCT	
-		            a.nroempresa,	
-                    a.seqproduto,
-                    ROUND(a.precogernormal/c.qtdembalagem,2) AS precogernormal,
-                    ROUND(a.precogerpromoc/c.qtdembalagem,2) AS precogerpromoc,
-                    ROUND(
-                    CASE
-                    WHEN a.precogerpromoc = 0
-                    THEN a.precogernormal
-                    ELSE a.precogerpromoc
-                    END / a.qtdembalagem,2) AS precogervenda,
-                    TO_DATE(a.dtaalteracao) AS dtaalteracao
-                FROM implantacao.mrl_prodempseg a
-                INNER JOIN implantacao.map_produto b ON b.seqproduto = a.seqproduto
-                INNER JOIN implantacao.map_famembalagem c ON c.seqfamilia = b.seqfamilia AND c.qtdembalagem = a.qtdembalagem
-                INNER JOIN implantacao.map_famdivisao d ON d.seqfamilia = b.seqfamilia
-                INNER JOIN implantacao.map_famembalagem e ON e.seqfamilia = b.seqfamilia AND e.qtdembalagem = d.padraoembcompra
-                WHERE 1 = 1
-                AND a.precogernormal > 0
-                AND a.nrosegmento IN (1,3,4,5,6,7,8,9,10)
-                AND a.statusvenda = 'A'
-                AND TO_DATE(a.dtaalteracao) >= SYSDATE-1
-                ORDER BY 2 ASC               
-                """
-        ora_conexao = fun.conect_oracle()
-        cursor = ora_conexao.cursor()
-        cursor.execute(select_produto_preco_venda)
-        dados = cursor.fetchall()
-        colunas = [row[0] for row in cursor.description]
-        produto_preco_venda = pd.DataFrame.from_records(dados, columns=colunas)
-        total_reg = produto_preco_venda["SEQPRODUTO"].count()
-
-        print("Execultado processo na tabela de \"Cadastro Produtos Preco Venda\" ...")
-
-        with open(NomeArquivo, "a") as arquivo:
-            arquivo.write("» Execultado processo na tabela de \"Cadastro Produtos Preco Venda\" ...\n")
-        arquivo.close()
-
-        campos = "(nroempresa,seqproduto,precogernormal,precogerpromoc,precogervenda)"
-        i = 0
-        dados = ""
-        parametro = 1000
-        if total_reg < 1000:
-            parametro = total_reg
-
-        for index, reg in produto_preco_venda.iterrows():
-            nroempresa = str(reg.NROEMPRESA)
-            seqproduto = str(reg.SEQPRODUTO)
-            precogernormal = str(reg.PRECOGERNORMAL)
-            precogerpromoc = str(reg.PRECOGERPROMOC)
-            precogervenda = str(reg.PRECOGERVENDA)
-
-            if (i == 0):
-                virgula = ""
-            else:
-                virgula = ","
-
-            dados = dados + virgula + "('" + nroempresa + "','" + seqproduto + "','" + precogernormal + "','" + precogerpromoc + "','" + precogervenda + "')\n"
-
-            i += 1
-
-            if i == parametro:
-                if operacao == 1:
-                    sql_insert \
-                        = "insert into pbi.carga_produtoprecovenda\n" + campos + "\nvalues\n" + dados + "\n"
-                    fun.process_data(sql_insert)
-                else:
-                    sql_update \
-                        = \
-                        "UPDATE pbi.carga_produtoprecovenda " \
-                        "SET " \
-                        "precogernormal = '" + precogernormal + "'," \
-                        "precogerpromoc = '" + precogerpromoc + "'," \
-                        "precogervenda = '" + precogervenda + "' " \
-                        "WHERE 1 = 1 " \
-                        "AND nroempresa = '" + nroempresa + "' " \
-                        "AND seqproduto = '" + seqproduto + "'"
-                    fun.process_data(sql_update)
-                total_reg -= i
-
-                if total_reg < parametro:
-                    parametro = total_reg
-                i = 0
-
-                dados = ""
         cursor.close()
 
         ###############################################################################################################

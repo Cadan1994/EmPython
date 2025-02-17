@@ -28,7 +28,7 @@ with open(NomeArquivo, "w") as Arquivo:
     Arquivo.close()
 
 etld.etl_dimensoes()
-etld_old.etl_dimensoes()
+# etld_old.etl_dimensoes()
 
 with open(NomeArquivo, "a") as Arquivo:
     Arquivo.write("+----------------------------------------------------------------------------------------------+\n")
@@ -49,7 +49,7 @@ with open(NomeArquivo, "a") as Arquivo:
     Arquivo.write("+----------------------------------------------------------------------------------------------+\n")
     Arquivo.close()
 
-etlf.etl_fatos()
+# etlf.etl_fatos()
 
 with open(NomeArquivo, "a") as Arquivo:
     Arquivo.write("+----------------------------------------------------------------------------------------------+\n")
